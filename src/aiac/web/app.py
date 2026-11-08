@@ -69,6 +69,7 @@ def task_page(
             "request_json": request_json,
             "experiment_defaults": day_02.DEFAULTS,
             "variants": day_02.VARIANTS,
+            "day_02_script_version": (WEB / "static" / "day_02.js").stat().st_mtime_ns,
         },
         status_code=status_code,
     )

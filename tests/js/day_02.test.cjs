@@ -22,10 +22,10 @@ function setup(options = {}) {
   const ids = ['experiment-form', 'experiment-fields', 'experiment-status', 'experiment-cost',
     'experiment-progress', 'experiment-meter', 'experiment-count', 'stop-experiment',
     'download-experiment', 'experiment-results', 'comparison-body', 'experiment-findings',
-    'experiment-conclusion', 'start-experiment'];
+    'start-experiment'];
   const elements = Object.fromEntries(ids.map(id => [id, new Element(id)]));
   const form = elements['experiment-form'];
-  const config = {prompt: 'extract data', format_instruction: 'only JSON', token_limit: '32',
+  const config = {prompt: 'extract data', format_instruction: 'only JSON', token_limit: '64',
     stop_sequence: '}', repeats: '2', selection: 'all', schema_text: '{}'};
   form.elements = Object.fromEntries(Object.entries(config).map(([key, value]) => [key, {value}]));
   form.reportValidity = () => true;
@@ -47,9 +47,11 @@ function setup(options = {}) {
     const row = {variant: body.variant, label: body.variant, repeat: body.repeat,
       model: 'test-model', text: '<script>unsafe</script>', response: {status: 'ok'},
       request: body, status: 'completed', finish_reason: 'stop', seconds: 0.5,
-      usage: {total_tokens: 15}, json_valid: true, schema_valid: true};
+      usage: options.missingUsage ? null : {prompt_tokens: 10, completion_tokens: 5, total_tokens: 15},
+      json_valid: true, schema_valid: true};
     if (options.fatal || options.blockVariant && body.variant === 'stop') {
-      Object.assign(row, {status: 'api_error', response: null, error: 'rejected',
+      Object.assign(row, {status: 'api_error', response: {http_status: 400,
+        error: {param: 'stop', code: 'unsupported_parameter'}}, error: 'rejected',
         stop_batch: Boolean(options.fatal), json_valid: null, schema_valid: null});
     }
     return {ok: true, json: async () => row};
@@ -75,20 +77,22 @@ function setup(options = {}) {
 }
 const settle = () => new Promise(resolve => setImmediate(resolve));
 
-test('all variants repeat sequentially, summarize and export raw data with conclusion', async () => {
+test('all variants repeat sequentially, summarize and export raw data and observations', async () => {
   const ui = setup();
   await ui.submit();
   assert.equal(ui.requests.length, 11); // preflight + 5 x 2, no retries
   assert.equal(ui.elements['experiment-results'].children.length, 10);
+  assert.match(ui.elements['experiment-results'].children[0].children[1].textContent,
+    /0\.5 с · Токены: вход 10 \/ выход 5 \/ всего 15/);
   assert.equal(ui.elements['comparison-body'].children.length, 5);
   assert.equal(ui.elements['experiment-meter'].value, 10);
   assert.equal(ui.elements['experiment-fields'].disabled, false);
   assert.equal(ui.elements['experiment-progress'].hidden, true);
-  ui.elements['experiment-conclusion'].value = 'My conclusion';
   const artifact = await ui.export();
   assert.equal(artifact.runs.length, 10);
   assert.equal(artifact.runs[0].text, '<script>unsafe</script>');
-  assert.equal(artifact.conclusion, 'My conclusion');
+  assert.equal(Object.hasOwn(artifact, 'conclusion'), false);
+  assert.match(artifact.observations, /JSON/);
   assert.equal(artifact.state, 'finished');
 });
 
@@ -124,6 +128,10 @@ test('quota/connection failure stops remaining paid requests', async () => {
   await ui.submit();
   assert.equal(ui.requests.length, 2);
   assert.equal((await ui.export()).state, 'api_error');
+  const firstRow = ui.elements['comparison-body'].children[0];
+  assert.equal(firstRow.children[2].textContent, '0/0'); // Error JSON is not a model reply.
+  const card = ui.elements['experiment-results'].children[0];
+  assert(card.children.some(panel => panel.children?.[0]?.textContent?.includes('безопасная копия')));
 });
 
 test('network interruption records an unknown outcome and does not retry', async () => {
@@ -143,4 +151,11 @@ test('invalid preflight performs zero model calls and restores controls', async 
   assert.equal(ui.elements['experiment-results'].children.length, 0);
   assert.match(ui.elements['experiment-status'].textContent, /Invalid schema/);
   assert.equal(ui.elements['experiment-fields'].disabled, false);
+});
+
+test('missing usage is displayed as unknown rather than zero', async () => {
+  const ui = setup({missingUsage: true});
+  await ui.submit();
+  assert.match(ui.elements['experiment-results'].children[0].children[1].textContent,
+    /Токены: вход нет данных \/ выход нет данных \/ всего нет данных/);
 });

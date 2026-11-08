@@ -12,7 +12,6 @@
   const results = document.getElementById('experiment-results');
   const summary = document.getElementById('comparison-body');
   const findings = document.getElementById('experiment-findings');
-  const conclusion = document.getElementById('experiment-conclusion');
   let running = false;
   let stopping = false;
   let report = null;
@@ -52,7 +51,8 @@
     for (const variant of report.plan.variants) {
       const rows = report.runs.filter(run => run.variant === variant.id);
       const attempts = rows.filter(run => run.status !== 'skipped');
-      const replies = attempts.filter(run => run.response !== null && run.response !== undefined);
+      const replies = attempts.filter(run => run.status !== 'api_error'
+        && run.response !== null && run.response !== undefined);
       const parsed = replies.filter(run => run.json_valid === true).length;
       const matched = replies.filter(run => run.schema_valid === true).length;
       const errors = attempts.filter(run => run.status === 'api_error').length;
@@ -77,11 +77,14 @@
   function showRun(run) {
     const card = node('article', undefined, 'run-card');
     card.append(node('h3', `${run.label} · прогон ${run.repeat}`));
-    card.append(node('p', `Статус: ${run.status} · JSON: ${validText(run.json_valid)} · Схема: ${validText(run.schema_valid)} · Завершение: ${run.finish_reason || '—'} · ${run.seconds ?? '—'} с`, 'debug-caption'));
+    const tokens = value => Number.isInteger(value) && value >= 0 ? String(value) : 'нет данных';
+    card.append(node('p', `Статус: ${run.status} · JSON: ${validText(run.json_valid)} · Схема: ${validText(run.schema_valid)} · Завершение: ${run.finish_reason || '—'} · ${run.seconds ?? '—'} с · Токены: вход ${tokens(run.usage?.prompt_tokens)} / выход ${tokens(run.usage?.completion_tokens)} / всего ${tokens(run.usage?.total_tokens)}`, 'debug-caption'));
     if (run.error) card.append(node('p', run.error, 'notice'));
     if (run.text) card.append(node('pre', run.text));
     if (run.validation_errors?.length) card.append(node('p', run.validation_errors.join(' '), 'notice'));
-    for (const [label, data] of [['Запрос к API · JSON', run.request], ['Ответ API · JSON', run.response]]) {
+    const responseLabel = run.status === 'api_error'
+      ? 'Ответ API · ошибка (безопасная копия)' : 'Ответ API · JSON';
+    for (const [label, data] of [['Запрос к API · JSON', run.request], [responseLabel, run.response]]) {
       if (data === null || data === undefined) continue;
       const panel = node('details', undefined, 'debug-panel');
       panel.append(node('summary', label), node('pre', json(data)));
@@ -117,7 +120,6 @@
       report = { version: 1, task: 'week_01/day_02', plan, runs: [], state: 'running' };
       activeReport = report;
       results.replaceChildren();
-      conclusion.value = '';
       download.disabled = true;
       meter.max = plan.total;
       meter.value = 0;
@@ -180,7 +182,7 @@
 
   download.addEventListener('click', () => {
     if (!report) return;
-    const artifact = { ...report, conclusion: conclusion.value };
+    const artifact = { ...report, observations: findings.textContent };
     const url = URL.createObjectURL(new Blob([json(artifact)], {type: 'application/json'}));
     const link = node('a');
     link.href = url;

@@ -93,7 +93,7 @@ def test_plan_and_controlled_payloads() -> None:
     assert "response_format" not in payloads["format"]
     assert payloads["format"]["messages"] == payloads["limit"]["messages"]
     assert payloads["stop"]["messages"] == payloads["format"]["messages"]
-    assert payloads["limit"]["max_completion_tokens"] == 32
+    assert payloads["limit"]["max_completion_tokens"] == 64
     assert payloads["baseline"]["max_completion_tokens"] == 512
     assert payloads["stop"]["stop"] == ["}"]
     assert payloads["schema"]["response_format"]["json_schema"]["strict"] is True
@@ -211,10 +211,51 @@ def test_safe_errors_and_batch_policy(quota: bool) -> None:
     assert result["status"] == "api_error"
     assert result["stop_batch"] is quota
     assert result["json_valid"] is None
-    assert result["response"] is None
+    assert result["response"]["http_status"] == (429 if quota else 400)
     assert "private-provider-error" not in json.dumps(result)
     assert "fake-day-02-key" not in json.dumps(result)
     api.chat.completions.create.assert_awaited_once()
+
+
+def test_stop_error_diagnostic_identifies_parameter_and_redacts_secrets() -> None:
+    api = sdk(response())
+    api.chat.completions.create.side_effect = BadRequestError(
+        "private-exception-not-for-display",
+        response=httpx.Response(400, request=httpx.Request("POST", "https://example.invalid")),
+        body={
+            "error": {
+                "message": (
+                    "Unsupported stop. fake-day-02-key sk-another-secret Bearer private-token"
+                ),
+                "param": "stop",
+                "code": "unsupported_parameter",
+                "type": "invalid_request_error",
+                "headers": {"Authorization": "private-header"},
+            }
+        },
+    )
+    with patch("aiac.llm.chat.AsyncOpenAI", return_value=api):
+        result = asyncio.run(execute(run_input("stop"), live_settings()))
+    assert "не поддерживает параметр stop" in result["error"]
+    assert result["response"]["error"]["param"] == "stop"
+    assert result["response"]["error"]["code"] == "unsupported_parameter"
+    assert "[REDACTED]" in result["response"]["error"]["message"]
+    encoded = json.dumps(result)
+    for secret in (
+        "fake-day-02-key",
+        "sk-another-secret",
+        "private-token",
+        "private-header",
+        "private-exception-not-for-display",
+        "Authorization",
+    ):
+        assert secret not in encoded
+    assert set(result["response"]["error"]) == {"message", "param", "code", "type"}
+
+
+def test_newline_stop_is_a_real_character_in_api_payload() -> None:
+    experiment = config().model_copy(update={"stop_sequence": "\\n"})
+    assert payload_for(experiment, "stop", "test-model")["stop"] == ["\n"]
 
 
 def test_changed_model_and_demo_cannot_start_api() -> None:
@@ -236,6 +277,7 @@ def test_routes_validate_before_calls_and_render_form(monkeypatch: pytest.Monkey
         page = client.get("/weeks/1/days/2")
         assert page.status_code == 200
         assert 'id="experiment-form"' in page.text
+        assert "/day_02.js?v=" in page.text
         assert "Решение и проверка" not in page.text
         assert client.post("/weeks/1/days/2/plan", json=DEFAULTS).json()["total"] == 15
         for overrides in [

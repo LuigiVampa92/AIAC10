@@ -18,7 +18,7 @@
           <small>Только для «Формат + лимит». Остальные варианты: 512.</small></div>
         <div><label for="stop-sequence">Stop sequence</label>
           <input id="stop-sequence" name="stop_sequence" required maxlength="100" value="{{ experiment_defaults.stop_sequence }}">
-          <small>API исключает маркер из ответа. <code>\n</code> означает перенос строки. Маркер <code>}</code> может сломать JSON.</small></div>
+          <small>Чтобы использовать перенос строки, введите два символа: <code>\n</code>. Перед отправкой они преобразуются в один символ переноса.</small></div>
         <div><label for="repeats">Повторов каждого варианта</label>
           <input id="repeats" name="repeats" type="number" min="2" max="5" required value="{{ experiment_defaults.repeats }}"></div>
       </div>
@@ -52,11 +52,9 @@
     <tbody id="comparison-body"></tbody>
   </table></div>
   <p id="experiment-findings" class="empty-state">После запуска здесь появятся наблюдения по результатам. Валидный JSON и соответствие схеме проверяются отдельно.</p>
-  <label for="experiment-conclusion">Ваш вывод: какой способ ломается и на чём</label>
-  <textarea id="experiment-conclusion" rows="3" maxlength="6000" placeholder="Сравните варианты и приведите примеры из прогонов."></textarea>
   <button type="button" id="download-experiment" disabled>Скачать результаты JSON</button>
-  <p class="debug-caption">Прогоны хранятся на этой странице до обновления. Скачивание включает настройки, ответы, проверки и ваш вывод. Новый запуск заменит текущие результаты.</p>
+  <p class="debug-caption">Прогоны хранятся на этой странице до обновления. Скачивание включает настройки, ответы, диагностику ошибок и проверки. Новый запуск заменит текущие результаты.</p>
 </section>
 <section><h2>Ответы и отладка</h2><div id="experiment-results"></div></section>
-<script src="{{ url_for('static', path='/day_02.js') }}" defer></script>
+<script src="{{ url_for('static', path='/day_02.js') }}?v={{ day_02_script_version }}" defer></script>
 {% endblock %}

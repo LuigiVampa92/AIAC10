@@ -37,7 +37,7 @@ DEFAULTS = {
         "Верни только JSON-объект с полями name (строка), age (целое число), city (строка). "
         "Без пояснений, Markdown и дополнительных полей."
     ),
-    "token_limit": 32,
+    "token_limit": 64,
     "stop_sequence": "}",
     "repeats": 3,
     "schema_text": json.dumps(DEFAULT_SCHEMA, ensure_ascii=False, indent=2),
@@ -270,6 +270,7 @@ async def execute(config: RunInput, settings: Settings) -> dict[str, Any]:
             "status": "api_error",
             "error": str(exc),
             "stop_batch": exc.stop_batch,
+            "response": exc.response,
             "seconds": round(perf_counter() - started, 3),
         }
     result.update(
