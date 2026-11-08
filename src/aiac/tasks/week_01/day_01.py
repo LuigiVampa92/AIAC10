@@ -1,9 +1,8 @@
-"""Неделя 1, день 1: условие ещё не получено."""
+"""Неделя 1, день 1: первый запрос к LLM через общую API-границу."""
 
 from aiac.config import Settings
 from aiac.llm.client import ModelResult, generate
 
 
 async def run(prompt: str, settings: Settings) -> ModelResult:
-    # Пока только техническая проверка подключения, не реализация задания.
     return await generate(prompt, settings)

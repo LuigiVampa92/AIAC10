@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=ROOT / ".env", extra="ignore")
 
-    aiac_llm_mode: Literal["demo", "openai"] = "demo"
+    aiac_llm_mode: Literal["demo", "live"] = "demo"
+    aiac_llm_provider: str = "openai"
+    aiac_llm_model: str = ""
     openai_api_key: SecretStr | None = None
-    aiac_openai_model: str = ""

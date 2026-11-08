@@ -63,3 +63,17 @@ footer { display: flex; justify-content: space-between; gap: 16px; padding: 28px
 @media (prefers-reduced-motion: reduce) {
   .card { transition: none; }
 }
+.debug-caption, .empty-state { color: var(--muted); font-size: 14px; }
+.debug-panel { margin: 12px 0; border: 1px solid #dce4f0; border-radius: 12px; background: #fff; overflow: hidden; }
+.debug-panel summary { padding: 16px 20px; cursor: pointer; font-weight: 600; color: #35529c; }
+.debug-panel summary:focus-visible { outline: 3px solid var(--accent); outline-offset: -4px; }
+.debug-panel > p { margin: 0; padding: 0 20px 16px; }
+.debug-panel pre { margin: 0; border: 0; border-top: 1px solid #e0e6f0; border-radius: 0; max-height: 480px; overflow: auto; background: #f8faff; font-size: 13px; }
+.request-progress { margin-top: 20px; }
+.request-progress[hidden] { display: none; }
+.request-progress label { color: var(--muted); font-size: 14px; }
+.request-progress progress { display: block; width: 100%; height: 10px; margin-top: 8px; accent-color: var(--accent); }
+button:disabled { opacity: .65; cursor: wait; }
+#task-result[aria-busy="true"] { opacity: .6; }
+.model-info { color: var(--muted); font-size: 14px; }
+.model-info strong { color: #35529c; font-weight: 600; }

@@ -1,23 +1,11 @@
 from collections.abc import Iterator
 
-import httpx
 import pytest
 from fastapi.testclient import TestClient
 
+from aiac.llm.client import ModelResult
 from aiac.tasks.registry import TASKS
 from aiac.web.app import app
-
-
-@pytest.fixture(autouse=True)
-def no_real_api(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("AIAC_LLM_MODE", "demo")
-    monkeypatch.setenv("OPENAI_API_KEY", "")
-    monkeypatch.setenv("AIAC_OPENAI_MODEL", "")
-
-    async def blocked(*args: object, **kwargs: object) -> None:
-        raise AssertionError("Real network calls are forbidden in tests")
-
-    monkeypatch.setattr(httpx.AsyncClient, "send", blocked)
 
 
 @pytest.fixture
@@ -39,8 +27,9 @@ def test_each_day_has_page_and_separate_module(client: TestClient, week: int, da
     assert task.document.is_file()
     response = client.get(task.url)
     assert response.status_code == 200
-    expected_status = "условие получено" if week == 1 else "ожидает условия"
-    assert expected_status in response.text
+    assert "Решение и проверка" not in response.text
+    assert "Повторная валидация по запросу" not in response.text
+    assert "Критерии приёмки" not in response.text
     assert 'action="' + task.url + '"' in response.text
     run = client.post(task.url, data={"prompt": "Привет"})
     assert run.status_code == 200
@@ -65,7 +54,49 @@ def test_output_is_escaped(client: TestClient) -> None:
 
 
 def test_missing_credentials_is_safe(client: TestClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("AIAC_LLM_MODE", "openai")
+    monkeypatch.setenv("AIAC_LLM_MODE", "live")
     response = client.post("/weeks/1/days/1", data={"prompt": "test"})
     assert response.status_code == 503
     assert "нужны OPENAI_API_KEY" in response.text
+
+
+def test_first_day_debug_empty_and_demo(client: TestClient) -> None:
+    page = client.get("/weeks/1/days/1")
+    assert "Запрос к API · JSON" in page.text
+    assert "Ответ API · JSON" in page.text
+    demo = client.post("/weeks/1/days/1", data={"prompt": "hello"})
+    assert "Ответ API отсутствует" in demo.text
+    assert "Запрос к API не отправлялся" in demo.text
+
+
+def test_model_information_is_read_only(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("AIAC_LLM_MODE", "live")
+    monkeypatch.setenv("AIAC_LLM_MODEL", "test-display-model")
+    page = client.get("/weeks/1/days/1")
+    assert "test-display-model" in page.text
+    assert "<strong>openai</strong>" in page.text
+    assert 'name="model"' not in page.text
+    assert "ChatGPT Plus" not in page.text
+    assert "Заготовки не являются выполненными заданиями" not in page.text
+
+
+def test_first_day_debug_json_is_escaped(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    async def fake_run(self: object, prompt: str, settings: object) -> ModelResult:
+        return ModelResult(
+            text="answer",
+            mode="live",
+            model="test-model",
+            request_json='{"input": "<script>request</script>"}',
+            response_json='{"output": "<script>response</script>", "usage": {}}',
+        )
+
+    monkeypatch.setattr("aiac.tasks.registry.Task.run", fake_run)
+    response = client.post("/weeks/1/days/1", data={"prompt": "hello"})
+    assert response.status_code == 200
+    assert "<script>" not in response.text
+    assert "&lt;script&gt;request&lt;/script&gt;" in response.text
+    assert "&lt;script&gt;response&lt;/script&gt;" in response.text

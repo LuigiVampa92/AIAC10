@@ -33,3 +33,4 @@ strict = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = ["live_openai: opt-in tests using real paid OpenAI API calls"]

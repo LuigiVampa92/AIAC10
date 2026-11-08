@@ -3,22 +3,56 @@
 <h1>Неделя {{ task.week }} · День {{ task.day }}</h1>
 <article>{{ description | safe }}</article>
 <section>
-  <h2>Проверка подключения</h2>
-  <p class="notice">Режим: <strong>{{ mode }}</strong>.
-  {% if mode == 'demo' %}Это заглушка: модель не вызывается, деньги не расходуются.
-  {% else %}Реальные платные вызовы OpenAI API. ChatGPT Plus их не оплачивает.{% endif %}</p>
-  <form method="post" action="{{ task.url }}">
+  <h2>{% if task.week == 1 and task.day == 1 %}Первый запрос к LLM{% else %}Проверка подключения{% endif %}</h2>
+  <p class="model-info">Режим: <strong>{% if mode == 'live' %}{{ provider }}{% else %}локальная проверка{% endif %}</strong>
+    · Модель: <strong>{{ model or 'не задана' }}</strong></p>
+  <form method="post" action="{{ task.url }}"{% if task.week == 1 and task.day == 1 %} data-async-task{% endif %}>
     <label for="prompt">Текст запроса (до 4000 символов)</label>
     <textarea id="prompt" name="prompt" required maxlength="4000" rows="5">{{ prompt }}</textarea>
-    <button type="submit">{% if mode == 'demo' %}Запустить демо{% else %}Вызвать OpenAI API{% endif %}</button>
+    <button type="submit">{% if mode == 'demo' %}Проверить форму{% else %}Отправить запрос{% endif %}</button>
   </form>
+  {% if task.week == 1 and task.day == 1 %}
+  <div class="request-progress" data-request-progress hidden>
+    <label for="request-progress">Ожидаем ответ модели…</label>
+    <progress id="request-progress" aria-label="Ожидание ответа модели"></progress>
+  </div>
+  <p data-request-status role="status" aria-live="polite"></p>
+  {% endif %}
 </section>
+<div id="task-result" aria-live="polite" aria-atomic="false">
 {% if error %}<p role="alert" class="notice">{{ error }}</p>{% endif %}
-{% if result %}
+{% if result or (task.week == 1 and task.day == 1) %}
 <section>
-  <h2>Результат</h2>
-  <p>Режим: {{ result.mode }} · Модель: {{ result.model }}</p>
+  <h2>Ответ модели</h2>
+  {% if result %}
+  <p>Режим: {% if result.mode == 'live' %}{{ result.provider }}{% else %}локальная проверка{% endif %} · Модель: {% if result.mode == 'live' %}{{ result.model }}{% else %}не используется{% endif %}</p>
   <pre>{{ result.text }}</pre>
+  {% else %}<p class="empty-state">Здесь появится ответ после отправки запроса.</p>{% endif %}
 </section>
+{% endif %}
+{% if task.week == 1 and task.day == 1 %}
+<section class="debug-section" aria-labelledby="debug-title">
+  <h2 id="debug-title">Отладка API</h2>
+  <p class="debug-caption">Тело запроса и JSON ответа. Ключ и HTTP-заголовки не отображаются. Данные не сохраняются в историю.</p>
+  <details class="debug-panel">
+    <summary>Запрос к API · JSON</summary>
+    {% if result and result.request_json %}
+    <p class="debug-caption">POST /v1/responses · max_output_tokens: 512</p>
+    <pre><code>{{ result.request_json }}</code></pre>
+    {% elif request_json %}<pre><code>{{ request_json }}</code></pre>
+    {% else %}<p class="empty-state">Запрос к API не отправлялся.</p>{% endif %}
+  </details>
+  <details class="debug-panel">
+    <summary>Ответ API · JSON</summary>
+    {% if result and result.response_json %}
+    <p class="debug-caption">Полный объект ответа, сериализованный SDK, включая status, output и usage при наличии.</p>
+    <pre><code>{{ result.response_json }}</code></pre>
+    {% else %}<p class="empty-state">{% if error %}Ответ модели не получен.{% else %}Ответ API отсутствует.{% endif %}</p>{% endif %}
+  </details>
+</section>
+{% endif %}
+</div>
+{% if task.week == 1 and task.day == 1 %}
+<script src="{{ url_for('static', path='/task.js') }}" defer></script>
 {% endif %}
 {% endblock %}

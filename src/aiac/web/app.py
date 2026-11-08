@@ -46,18 +46,26 @@ def task_page(
     prompt: str = "",
     result: dict[str, str] | None = None,
     error: str | None = None,
+    request_json: str = "",
     status_code: int = 200,
 ) -> HTMLResponse:
+    # Public pages show the original task; implementation reports stay in docs.
+    document = task.document.read_text(encoding="utf-8")
+    _, separator, original = document.partition("## Оригинальное условие\n")
+    description = original.split("\n## ", 1)[0] if separator else "Описание пока не добавлено."
     return templates.TemplateResponse(
         request=request,
         name="task.html",
         context={
             "task": task,
-            "description": markdown.render(task.document.read_text(encoding="utf-8")),
+            "description": markdown.render(description),
             "mode": settings.aiac_llm_mode,
+            "provider": settings.aiac_llm_provider,
+            "model": settings.aiac_llm_model if settings.aiac_llm_mode == "live" else "",
             "prompt": prompt,
             "result": result,
             "error": error,
+            "request_json": request_json,
         },
         status_code=status_code,
     )
@@ -82,5 +90,13 @@ async def task_run(
     try:
         result = await task.run(prompt, settings)
     except ModelError as exc:
-        return task_page(request, task, settings, prompt=prompt, error=str(exc), status_code=503)
+        return task_page(
+            request,
+            task,
+            settings,
+            prompt=prompt,
+            error=str(exc),
+            request_json=exc.request_json,
+            status_code=503,
+        )
     return task_page(request, task, settings, prompt=prompt, result=asdict(result))
