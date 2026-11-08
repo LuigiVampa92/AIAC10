@@ -3,12 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AIAC — лаборатория</title>
+  <title>AI advent Challange №10 — Павел Васильев</title>
   <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
 </head>
 <body>
-  <header><a href="/">AIAC</a> · 7 недель · 35 заданий</header>
+  <header class="site-header">
+    <div>
+      <a class="brand" href="/">AI advent Challange №10</a>
+      <p class="header-caption">Лаборатория AI-assisted разработки</p>
+    </div>
+    <div class="participant"><span class="avatar" aria-hidden="true">ПВ</span><span>Павел Васильев</span></div>
+  </header>
   <main>{% block content %}{% endblock %}</main>
-  <footer>Локальная лаборатория. Заготовки не являются выполненными заданиями.</footer>
+  <footer>7 недель · 35 заданий <span>Заготовки не являются выполненными заданиями.</span></footer>
 </body>
 </html>

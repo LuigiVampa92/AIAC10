@@ -1,15 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>AI-assisted development challenge</h1>
-<p>Условия пока не добавлены. Каждый день имеет отдельный модуль и страницу.</p>
+<div class="intro">
+  <p class="eyebrow">От первого запроса до собственного пайплайна</p>
+  <h1>Практика, неделя за неделей</h1>
+  <p>Задания, эксперименты и результаты — всё в одном месте. Выберите день, чтобы открыть его страницу.</p>
+  <a class="source-link" href="https://mobiledeveloper.tech/ai_advent_10" target="_blank" rel="noopener noreferrer">О челлендже у автора ↗</a>
+</div>
+{% set themes = ['Основы LLM', 'База про агентов', 'Оптимизация агента', 'MCP', 'RAG', 'Локальный ИИ', 'Пайплайн'] %}
+<div class="weeks">
 {% for week in range(1, 8) %}
-<section>
-  <h2>Неделя {{ week }}</h2>
-  <div class="days">
-    {% for task in tasks if task.week == week %}
-    <a class="card" href="{{ task.url }}">День {{ task.day }} <small>Страница задания</small></a>
-    {% endfor %}
+<section class="week-block" aria-labelledby="week-{{ week }}">
+  <div class="week-heading">
+    <span class="week-number" aria-hidden="true">{{ '%02d' | format(week) }}</span>
+    <div><p class="eyebrow">Неделя {{ week }}</p><h2 id="week-{{ week }}">{{ themes[week - 1] }}</h2></div>
+    <span class="week-meta">5 заданий</span>
   </div>
+  <nav class="days" aria-label="Дни недели {{ week }}">
+    {% for task in tasks if task.week == week %}
+    <a class="card" href="{{ task.url }}">День {{ task.day }}</a>
+    {% endfor %}
+  </nav>
 </section>
 {% endfor %}
+</div>
 {% endblock %}
