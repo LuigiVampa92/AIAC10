@@ -32,6 +32,10 @@ def test_each_day_has_page_and_separate_module(client: TestClient, week: int, da
     assert "Критерии приёмки" not in response.text
     assert 'action="' + task.url + '"' in response.text
     run = client.post(task.url, data={"prompt": "Привет"})
+    if (week, day) == (1, 2):
+        assert run.status_code == 422
+        assert "Используйте форму эксперимента" in run.text
+        return
     assert run.status_code == 200
     assert "API не вызывался" in run.text
 

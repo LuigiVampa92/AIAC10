@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Annotated
 
 from fastapi import FastAPI, Form, HTTPException, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from markdown_it import MarkdownIt
@@ -11,6 +11,7 @@ from markdown_it import MarkdownIt
 from aiac.config import Settings
 from aiac.llm.client import ModelError
 from aiac.tasks.registry import TASKS, Task
+from aiac.tasks.week_01 import day_02
 
 WEB = Path(__file__).parent
 app = FastAPI(title="AIAC · 35 заданий")
@@ -55,7 +56,7 @@ def task_page(
     description = original.split("\n## ", 1)[0] if separator else "Описание пока не добавлено."
     return templates.TemplateResponse(
         request=request,
-        name="task.html",
+        name="day_02.html" if (task.week, task.day) == (1, 2) else "task.html",
         context={
             "task": task,
             "description": markdown.render(description),
@@ -66,6 +67,8 @@ def task_page(
             "result": result,
             "error": error,
             "request_json": request_json,
+            "experiment_defaults": day_02.DEFAULTS,
+            "variants": day_02.VARIANTS,
         },
         status_code=status_code,
     )
@@ -85,6 +88,14 @@ async def task_run(
 ) -> HTMLResponse:
     task = get_task(week, day)
     settings = Settings()
+    if (week, day) == (1, 2):
+        return task_page(
+            request,
+            task,
+            settings,
+            error="Используйте форму эксперимента второго дня.",
+            status_code=422,
+        )
     if not prompt.strip():
         return task_page(request, task, settings, error="Введите непустой текст.", status_code=422)
     try:
@@ -100,3 +111,21 @@ async def task_run(
             status_code=503,
         )
     return task_page(request, task, settings, prompt=prompt, result=asdict(result))
+
+
+@app.post("/weeks/1/days/2/plan")
+async def day_02_plan(config: day_02.ExperimentInput) -> JSONResponse:
+    try:
+        return JSONResponse(day_02.plan(config, Settings()))
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=422)
+
+
+@app.post("/weeks/1/days/2/runs")
+async def day_02_run(config: day_02.RunInput) -> JSONResponse:
+    try:
+        return JSONResponse(await day_02.execute(config, Settings()))
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=422)
+    except ModelError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=503)

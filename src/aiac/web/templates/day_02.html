@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Неделя 1 · День 2</h1>
+<article>{{ description | safe }}</article>
+<section>
+  <h2>Сравнение форматов ответа</h2>
+  <p class="model-info">Провайдер: <strong>{{ provider }}</strong> · Модель: <strong>{{ model or 'не задана' }}</strong></p>
+  <p>Один запрос, пять вариантов управления ответом. Каждый вариант повторяется несколько раз.</p>
+  <form method="post" action="{{ task.url }}" id="experiment-form">
+    <fieldset id="experiment-fields">
+      <label for="prompt">Исходный запрос (до 4000 символов)</label>
+      <textarea id="prompt" name="prompt" required maxlength="4000" rows="3">{{ experiment_defaults.prompt }}</textarea>
+      <label for="format-instruction">Описание формата ответа</label>
+      <textarea id="format-instruction" name="format_instruction" required maxlength="2000" rows="3">{{ experiment_defaults.format_instruction }}</textarea>
+      <div class="experiment-controls">
+        <div><label for="token-limit">Уменьшенный лимит токенов</label>
+          <input id="token-limit" name="token_limit" type="number" min="16" max="512" required value="{{ experiment_defaults.token_limit }}">
+          <small>Только для «Формат + лимит». Остальные варианты: 512.</small></div>
+        <div><label for="stop-sequence">Stop sequence</label>
+          <input id="stop-sequence" name="stop_sequence" required maxlength="100" value="{{ experiment_defaults.stop_sequence }}">
+          <small>API исключает маркер из ответа. <code>\n</code> означает перенос строки. Маркер <code>}</code> может сломать JSON.</small></div>
+        <div><label for="repeats">Повторов каждого варианта</label>
+          <input id="repeats" name="repeats" type="number" min="2" max="5" required value="{{ experiment_defaults.repeats }}"></div>
+      </div>
+      <label for="schema-text">JSON Schema</label>
+      <textarea id="schema-text" name="schema_text" required maxlength="12000" rows="12" spellcheck="false">{{ experiment_defaults.schema_text }}</textarea>
+      <small>Поддерживаются type, enum, properties, required, additionalProperties и items. Все поля объектов обязательны, дополнительные поля запрещены. Корень — object; глубина до 8.</small>
+      <div class="experiment-actions">
+        <div><label for="selection">Вариант</label><select id="selection" name="selection">
+          <option value="all">Все пять вариантов</option>
+          {% for key, label in variants.items() %}<option value="{{ key }}">{{ label }}</option>{% endfor %}
+        </select></div>
+        <button type="submit" id="start-experiment">Запустить сравнение</button>
+      </div>
+    </fieldset>
+  </form>
+  <p id="experiment-cost" class="notice"></p>
+  <small>Все варианты используют Chat Completions. Поддержка stop и строгой схемы проверяется API: отклонённый вариант отмечается ошибкой без замены параметров.</small>
+  <noscript><p class="notice">Для запуска эксперимента включите JavaScript.</p></noscript>
+  {% if error %}<p role="alert" class="notice">{{ error }}</p>{% endif %}
+  <div class="request-progress" id="experiment-progress" hidden>
+    <label for="experiment-meter" id="experiment-count">Подготовка…</label>
+    <progress id="experiment-meter" value="0" max="1"></progress>
+  </div>
+  <button type="button" id="stop-experiment" hidden>Остановить после текущего запроса</button>
+  <p id="experiment-status" role="status" aria-live="polite"></p>
+</section>
+<section aria-labelledby="comparison-title">
+  <h2 id="comparison-title">Сравнение</h2>
+  <div class="table-scroll"><table class="comparison-table">
+    <thead><tr><th>Вариант</th><th>Попыток</th><th>JSON разобран</th><th>По схеме</th><th>Неполных / отказов</th><th>Ошибок API</th><th>Неизвестно</th><th>Пропущено</th><th>Токены ответов</th><th>Время, с</th></tr></thead>
+    <tbody id="comparison-body"></tbody>
+  </table></div>
+  <p id="experiment-findings" class="empty-state">После запуска здесь появятся наблюдения по результатам. Валидный JSON и соответствие схеме проверяются отдельно.</p>
+  <label for="experiment-conclusion">Ваш вывод: какой способ ломается и на чём</label>
+  <textarea id="experiment-conclusion" rows="3" maxlength="6000" placeholder="Сравните варианты и приведите примеры из прогонов."></textarea>
+  <button type="button" id="download-experiment" disabled>Скачать результаты JSON</button>
+  <p class="debug-caption">Прогоны хранятся на этой странице до обновления. Скачивание включает настройки, ответы, проверки и ваш вывод. Новый запуск заменит текущие результаты.</p>
+</section>
+<section><h2>Ответы и отладка</h2><div id="experiment-results"></div></section>
+<script src="{{ url_for('static', path='/day_02.js') }}" defer></script>
+{% endblock %}
