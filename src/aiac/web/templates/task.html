@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Неделя {{ task.week }} · День {{ task.day }}</h1>
+<article>{{ description | safe }}</article>
+<section>
+  <h2>Проверка подключения</h2>
+  <p class="notice">Режим: <strong>{{ mode }}</strong>.
+  {% if mode == 'demo' %}Это заглушка: модель не вызывается, деньги не расходуются.
+  {% else %}Реальные платные вызовы OpenAI API. ChatGPT Plus их не оплачивает.{% endif %}</p>
+  <form method="post" action="{{ task.url }}">
+    <label for="prompt">Текст запроса (до 4000 символов)</label>
+    <textarea id="prompt" name="prompt" required maxlength="4000" rows="5">{{ prompt }}</textarea>
+    <button type="submit">{% if mode == 'demo' %}Запустить демо{% else %}Вызвать OpenAI API{% endif %}</button>
+  </form>
+</section>
+{% if error %}<p role="alert" class="notice">{{ error }}</p>{% endif %}
+{% if result %}
+<section>
+  <h2>Результат</h2>
+  <p>Режим: {{ result.mode }} · Модель: {{ result.model }}</p>
+  <pre>{{ result.text }}</pre>
+</section>
+{% endif %}
+{% endblock %}

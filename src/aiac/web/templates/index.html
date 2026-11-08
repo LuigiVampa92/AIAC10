@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>AI-assisted development challenge</h1>
+<p>Условия пока не добавлены. Каждый день имеет отдельный модуль и страницу.</p>
+{% for week in range(1, 8) %}
+<section>
+  <h2>Неделя {{ week }}</h2>
+  <div class="days">
+    {% for task in tasks if task.week == week %}
+    <a class="card" href="{{ task.url }}">День {{ task.day }} <small>Страница задания</small></a>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+{% endblock %}

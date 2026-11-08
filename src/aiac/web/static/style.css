@@ -1,0 +1,11 @@
+:root { color-scheme: light dark; font-family: system-ui, sans-serif; line-height: 1.6; }
+body { max-width: 1000px; margin: auto; padding: 24px; }
+header, footer { padding: 16px 0; opacity: .8; }
+a { color: light-dark(#2458b8, #97bcff); }
+section, article { margin: 24px 0; }
+.days { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+.card, .notice { border: 1px solid #8886; border-radius: 8px; padding: 16px; }
+small { display: block; }
+textarea { box-sizing: border-box; width: 100%; margin: 8px 0; font: inherit; }
+button { padding: 10px 20px; cursor: pointer; font: inherit; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; border: 1px solid #8886; padding: 16px; }
