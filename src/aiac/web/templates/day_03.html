@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Неделя 1 · День 3</h1>
+<article>{{ description | safe }}</article>
+<section>
+  <h2>Способы решения и рассуждение</h2>
+  <p class="model-info">Провайдер: <strong>openai</strong> · Модель: <strong>{{ day_03_model }}</strong></p>
+  <details><summary>Пять задач, эталоны и правила оценки</summary>
+    {% for item in day_03_tasks %}
+    <h3>{{ item.title }}</h3><p>{{ item.text }}</p><p>Эталон: <strong>{{ item.answer }}</strong></p>
+    {% endfor %}
+    <p>Сравнивается поле answer в JSON: игнорируются регистр и пробелы по краям.
+      Единицы измерения не добавляются. Для экспертов также обязательны три решения:
+      аналитик, инженер и критик. Оценивается их общий итог.
+      Неполные ответы, отказы и ошибки остаются в числе запланированных решений.</p>
+  </details>
+  <form id="reasoning-form" action="{{ task.url }}">
+    <fieldset id="reasoning-fields">
+      <label for="task-choice">Задачи</label><select id="task-choice" name="task">
+        <option value="all">Все пять задач</option>
+        {% for item in day_03_tasks %}<option value="{{ item.id }}">{{ item.title }}</option>{% endfor %}
+      </select>
+      <label for="method-choice">Способ</label><select id="method-choice" name="method">
+        <option value="all">Все четыре способа</option>
+        {% for key, label in day_03_methods.items() %}<option value="{{ key }}">{{ label }}</option>{% endfor %}
+      </select>
+      <label for="effort-choice">Рассуждение</label><select id="effort-choice" name="effort">
+        <option value="all">Оба режима: none / max</option>
+        <option value="none">none — отключено</option><option value="max">max — максимальное</option>
+      </select>
+      <p id="reasoning-cost" class="notice"></p>
+      <button type="submit">Запустить сравнение</button>
+    </fieldset>
+  </form>
+  <noscript><p>Для сравнения включите JavaScript.</p></noscript>
+  {% if error %}<p role="alert">{{ error }}</p>{% endif %}
+  <button id="reasoning-stop" type="button" hidden>Остановить после текущего вызова</button>
+  <progress id="reasoning-progress" value="0" max="50" hidden></progress>
+  <p id="reasoning-status" role="status" aria-live="polite"></p>
+</section>
+<section><h2>Сравнение</h2>
+  <div class="table-scroll"><table class="comparison-table">
+    <thead><tr><th>Способ</th><th>Рассуждение</th><th>Верно / запланировано</th><th>Обработано</th><th>Токены: вход / выход / всего</th><th>Время, с</th></tr></thead>
+    <tbody id="reasoning-summary"></tbody>
+  </table></div>
+  <p>Для создания промпта учитываются оба этапа. Токены рассуждения входят в выходные.
+    Неизвестные метрики не заменяются нулями. Время — длительность API-вызовов, без пауз между ними.</p>
+  <p>Результаты доступны до обновления страницы. Вопрос постоянного сохранения отложен.
+    Новый запуск заменит текущую серию.</p>
+</section>
+<section><h2>Ответы и отладка</h2><div id="reasoning-results"></div></section>
+<script src="{{ url_for('static', path='/day_03.js') }}?v={{ day_03_script_version }}" defer></script>
+{% endblock %}
