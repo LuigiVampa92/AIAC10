@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Неделя 1 · День 5</h1><article>{{ description | safe }}</article>
+<section><h2>Сравнение моделей</h2>
+<p>Провайдер: <strong>openai</strong>. Выберите три разные модели для одного набора задач.</p>
+<p id="models-catalog-status" role="status"></p>
+<p>Список текстовых моделей загружается автоматически при открытии страницы.
+  Поддержку Responses API и reasoning выбранной моделью проверяет API. Модель с неподдерживаемыми параметрами будет отмечена ошибкой,
+  без скрытой замены. Параметры и тарифы подбираются автоматически по выбранному ID.</p>
+<form id="models-form" action="{{ task.url }}"><fieldset id="models-fields">
+<datalist id="models-list"></datalist>
+{% for role, label in day_05_roles.items() %}
+<section><h3>{{ label }}</h3>
+<label for="models-{{ role }}">Модель</label>
+<input id="models-{{ role }}" name="{{ role }}" list="models-list" value="{{ day_05_defaults[role] }}" required maxlength="200">
+<p id="models-{{ role }}-info" class="debug-caption"></p>
+</section>
+{% endfor %}
+<label for="models-repeats">Повторов каждой задачи (1–10)</label><input id="models-repeats" type="number" min="1" max="10" step="1" required value="1">
+<p id="models-cost" class="notice"></p><button type="submit">Запустить сравнение</button>
+</fieldset></form>
+<noscript><p>Включите JavaScript для сравнения.</p></noscript>
+{% if error %}<p role="alert">{{ error }}</p>{% endif %}
+<button id="models-stop" type="button" hidden>Остановить после текущего вызова</button>
+<progress id="models-progress" value="0" max="15" hidden></progress><p id="models-status" role="status" aria-live="polite"></p>
+</section>
+<details><summary>Пять задач v2 и эталоны</summary>{% for item in day_05_tasks %}
+<h3>{{ item.title }}</h3><p>{{ item.text }}</p><p>Эталон: {{ item.answer }}</p>{% endfor %}
+<p>Оценивается строковое поле answer в JSON, игнорируются регистр и пробелы по краям.
+  Неполные ответы и отказы не засчитываются. Объяснение не заменяет итоговое поле.</p></details>
+
+<section><h2>Итоги по моделям</h2><div class="table-scroll"><table class="comparison-table">
+<thead><tr><th>Роль / модель</th><th>Верно / план</th><th>Обработано</th><th>Среднее время ответа, с</th><th>Токены: вход / выход / всего</th><th>Расчётная стоимость, USD</th><th>Неполных / отказов / ошибок</th></tr></thead>
+<tbody id="models-summary"></tbody></table></div><p id="models-findings"></p>
+<p>Стоимость рассчитана по usage и справочнику тарифов Standard, это не выписка биллинга.
+  Неизвестные метрики не заменяются нулём. Reasoning входит в выходные токены.
+  Среднее время — только для полученных ответов; оно включает сеть и ожидание API.</p>
+<p>Для reasoning-моделей используется low, для старых моделей параметр не отправляется.
+  Фактическая настройка видна в итогах и запросах. low не гарантирует одинакового
+  внутреннего объёма работы разных моделей. Роли назначаете вы,
+  они не определяют автоматически мощность выбранной модели.</p>
+</section>
+<section><h2>Сравнение по задачам</h2><div id="models-results"></div></section>
+<p>Результаты доступны до обновления страницы или новой серии. Архива и экспорта нет.</p>
+<script src="{{ url_for('static', path='/day_05.js') }}?v={{ day_05_script_version }}" defer></script>
+{% endblock %}

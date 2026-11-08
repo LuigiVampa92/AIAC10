@@ -9,9 +9,10 @@ from fastapi.templating import Jinja2Templates
 from markdown_it import MarkdownIt
 
 from aiac.config import Settings
+from aiac.llm.catalog import list_models
 from aiac.llm.client import ModelError
 from aiac.tasks.registry import TASKS, Task
-from aiac.tasks.week_01 import day_02, day_03, day_04
+from aiac.tasks.week_01 import day_02, day_03, day_04, day_05
 
 WEB = Path(__file__).parent
 app = FastAPI(title="AIAC · 35 заданий")
@@ -60,7 +61,9 @@ def task_page(
     return templates.TemplateResponse(
         request=request,
         name=(
-            f"day_{task.day:02}.html" if task.week == 1 and task.day in (2, 3, 4) else "task.html"
+            f"day_{task.day:02}.html"
+            if task.week == 1 and task.day in (2, 3, 4, 5)
+            else "task.html"
         ),
         context={
             "task": task,
@@ -82,6 +85,10 @@ def task_page(
             "day_04_model": day_04.MODEL,
             "day_04_tasks": day_04.TASKS,
             "day_04_script_version": (WEB / "static" / "day_04.js").stat().st_mtime_ns,
+            "day_05_defaults": day_05.DEFAULTS,
+            "day_05_roles": day_05.ROLES,
+            "day_05_tasks": day_03.TASKS,
+            "day_05_script_version": (WEB / "static" / "day_05.js").stat().st_mtime_ns,
         },
         status_code=status_code,
     )
@@ -101,7 +108,7 @@ async def task_run(
 ) -> HTMLResponse:
     task = get_task(week, day)
     settings = Settings()
-    if week == 1 and day in (2, 3, 4):
+    if week == 1 and day in (2, 3, 4, 5):
         return task_page(
             request,
             task,
@@ -171,5 +178,32 @@ async def day_04_plan(config: day_04.Selection) -> JSONResponse:
 async def day_04_run(config: day_04.RunInput) -> JSONResponse:
     try:
         return JSONResponse(await day_04.execute(config, Settings()))
+    except ModelError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=503)
+
+
+@app.get("/weeks/1/days/5/models")
+async def day_05_models() -> JSONResponse:
+    try:
+        ids = await list_models(Settings())
+        return JSONResponse(
+            {"models": [{"id": model, "rates": day_05.default_rates(model)} for model in ids]},
+            headers={"Cache-Control": "no-store"},
+        )
+    except ModelError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=503)
+
+
+@app.post("/weeks/1/days/5/plan")
+async def day_05_plan(config: day_05.Selection) -> JSONResponse:
+    return JSONResponse(day_05.plan(config))
+
+
+@app.post("/weeks/1/days/5/runs")
+async def day_05_run(config: day_05.RunInput) -> JSONResponse:
+    try:
+        return JSONResponse(await day_05.execute(config, Settings()))
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=422)
     except ModelError as exc:
         return JSONResponse({"error": str(exc)}, status_code=503)
