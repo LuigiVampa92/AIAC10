@@ -39,7 +39,7 @@ def test_each_day_has_page_and_separate_module(client: TestClient, week: int, da
     assert task.document.is_file()
     response = client.get(task.url)
     assert response.status_code == 200
-    expected_status = "условие получено" if (week, day) == (1, 1) else "ожидает условия"
+    expected_status = "условие получено" if week == 1 else "ожидает условия"
     assert expected_status in response.text
     assert 'action="' + task.url + '"' in response.text
     run = client.post(task.url, data={"prompt": "Привет"})
