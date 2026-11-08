@@ -202,7 +202,15 @@ def require_live(settings: Settings) -> None:
         raise ValueError("Настройте OPENAI_API_KEY.")
 
 
+def experiment_settings(settings: Settings) -> Settings:
+    """An explicit day-specific model leaves the global model and other days intact."""
+    if settings.aiac_day_02_model.strip():
+        return settings.model_copy(update={"aiac_llm_model": settings.aiac_day_02_model.strip()})
+    return settings
+
+
 def plan(config: ExperimentInput, settings: Settings) -> dict[str, Any]:
+    settings = experiment_settings(settings)
     require_live(settings)
     config.schema_value()
     variants = list(VARIANTS) if config.selection == "all" else [config.selection]
@@ -238,6 +246,7 @@ def payload_for(config: ExperimentInput, variant: Variant, model: str) -> dict[s
 
 
 async def execute(config: RunInput, settings: Settings) -> dict[str, Any]:
+    settings = experiment_settings(settings)
     require_live(settings)
     if config.model != settings.aiac_llm_model or config.provider != settings.aiac_llm_provider:
         raise ValueError("Настройки модели изменились. Создайте новый эксперимент.")

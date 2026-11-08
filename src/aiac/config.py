@@ -13,4 +13,5 @@ class Settings(BaseSettings):
     aiac_llm_mode: Literal["demo", "live"] = "demo"
     aiac_llm_provider: str = "openai"
     aiac_llm_model: str = ""
+    aiac_day_02_model: str = ""
     openai_api_key: SecretStr | None = None

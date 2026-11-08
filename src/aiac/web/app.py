@@ -54,6 +54,9 @@ def task_page(
     document = task.document.read_text(encoding="utf-8")
     _, separator, original = document.partition("## Оригинальное условие\n")
     description = original.split("\n## ", 1)[0] if separator else "Описание пока не добавлено."
+    display_settings = (
+        day_02.experiment_settings(settings) if (task.week, task.day) == (1, 2) else settings
+    )
     return templates.TemplateResponse(
         request=request,
         name="day_02.html" if (task.week, task.day) == (1, 2) else "task.html",
@@ -62,7 +65,7 @@ def task_page(
             "description": markdown.render(description),
             "mode": settings.aiac_llm_mode,
             "provider": settings.aiac_llm_provider,
-            "model": settings.aiac_llm_model if settings.aiac_llm_mode == "live" else "",
+            "model": display_settings.aiac_llm_model if settings.aiac_llm_mode == "live" else "",
             "prompt": prompt,
             "result": result,
             "error": error,

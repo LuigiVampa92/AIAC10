@@ -20,6 +20,7 @@ from aiac.tasks.week_01.day_02 import (
     RunInput,
     check_schema,
     execute,
+    experiment_settings,
     payload_for,
     plan,
     schema_errors,
@@ -99,6 +100,33 @@ def test_plan_and_controlled_payloads() -> None:
     assert payloads["schema"]["response_format"]["json_schema"]["strict"] is True
     assert payloads["schema"]["response_format"]["json_schema"]["schema"] == DEFAULT_SCHEMA
     assert all("temperature" not in payload for payload in payloads.values())
+
+
+def test_day_specific_model_is_explicit_and_does_not_change_other_days(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    settings = live_settings().model_copy(update={"aiac_day_02_model": "compatible-model"})
+    assert experiment_settings(settings).aiac_llm_model == "compatible-model"
+    assert settings.aiac_llm_model == "test-model"
+    assert plan(config(), settings)["model"] == "compatible-model"
+    monkeypatch.setenv("AIAC_LLM_MODE", "live")
+    monkeypatch.setenv("AIAC_LLM_MODEL", "global-model")
+    monkeypatch.setenv("AIAC_DAY_02_MODEL", "compatible-model")
+    with TestClient(app) as client:
+        first = client.get("/weeks/1/days/1").text
+        second = client.get("/weeks/1/days/2").text
+    assert "<strong>global-model</strong>" in first
+    assert "<strong>compatible-model</strong>" in second
+
+
+def test_execute_uses_day_specific_model() -> None:
+    settings = live_settings().model_copy(update={"aiac_day_02_model": "compatible-model"})
+    request = run_input().model_copy(update={"model": "compatible-model"})
+    api = sdk(response())
+    with patch("aiac.llm.chat.AsyncOpenAI", return_value=api):
+        result = asyncio.run(execute(request, settings))
+    assert result["request"]["model"] == "compatible-model"
+    assert result["model"] == "test-model-snapshot"
 
 
 @pytest.mark.parametrize("text", ["```json\n{}\n```", '{"a":1,"a":2}', "NaN", "1e999", "{"])

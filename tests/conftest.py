@@ -28,6 +28,7 @@ def no_real_api(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPatch)
     monkeypatch.setenv("AIAC_LLM_PROVIDER", "openai")
     monkeypatch.setenv("OPENAI_API_KEY", "")
     monkeypatch.setenv("AIAC_LLM_MODEL", "")
+    monkeypatch.setenv("AIAC_DAY_02_MODEL", "")
 
     async def blocked(*args: object, **kwargs: object) -> None:
         raise AssertionError("Real network calls are forbidden in offline tests")
