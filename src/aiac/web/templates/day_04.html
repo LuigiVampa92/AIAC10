@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Неделя 1 · День 4</h1>
+<article>{{ description | safe }}</article>
+<section>
+  <h2>Влияние температуры</h2>
+  <p class="model-info">Провайдер: <strong>openai</strong> · Модель: <strong>{{ day_04_model }}</strong></p>
+  <details><summary>Запросы и правила сравнения</summary>
+    {% for key, item in day_04_tasks.items() %}<h3>{{ item.title }}</h3><p>{{ item.prompt }}</p>{% endfor %}
+    <p>Покупка: эталон 4494, оценивается поле answer. Формат: только строковые поля
+      answer (целое число без единиц) и непустое explanation. Названия: ровно пять
+      разных названий из двух русских слов, только поле names. Регистр названий
+      не влияет на сравнение. Перестановка списка не считается новым набором.</p>
+    <p>Различия текста считаются отдельно от различий итоговых ответов или наборов названий.
+      Качество и уместность названий оценивайте при просмотре: разнообразие не означает качество.</p>
+  </details>
+  <form id="temperature-form" action="{{ task.url }}">
+    <fieldset id="temperature-fields">
+      <label for="temperature-task">Запрос</label><select id="temperature-task" name="task">
+        <option value="all">Оба запроса</option>
+        {% for key, item in day_04_tasks.items() %}<option value="{{ key }}">{{ item.title }}</option>{% endfor %}
+      </select>
+      <label for="temperature-choice">Температура</label><select id="temperature-choice" name="temperature">
+        <option value="all">Все три температуры</option>
+        <option value="0">0</option><option value="0.7">0.7</option><option value="1.2">1.2</option>
+      </select>
+      <label for="temperature-repeats">Повторов каждой комбинации (1–10)</label>
+      <input id="temperature-repeats" name="repeats" type="number" min="1" max="10" step="1" required value="5">
+      <small>Для сценария оригинального задания выберите 5 повторов.</small>
+      <p id="temperature-cost" class="notice"></p>
+      <button type="submit">Запустить сравнение</button>
+    </fieldset>
+  </form>
+  <noscript><p>Для сравнения включите JavaScript.</p></noscript>
+  {% if error %}<p role="alert">{{ error }}</p>{% endif %}
+  <button id="temperature-stop" type="button" hidden>Остановить после текущего вызова</button>
+  <progress id="temperature-progress" value="0" max="30" hidden></progress>
+  <p id="temperature-status" role="status" aria-live="polite"></p>
+</section>
+<section><h2>Сравнение</h2>
+  <div class="table-scroll"><table class="comparison-table">
+    <thead><tr><th>Запрос</th><th>Температура</th><th>Обработано / план</th><th>Ответов</th><th>Верно</th><th>Неверных итогов при верном формате</th><th>Ошибок формата</th><th>Неполных / отказов</th><th>API / неизвестно</th><th>Уникальных текстов</th><th>Уникальных итогов / наборов</th><th>Разных названий</th><th>Токены: вход / выход / всего</th><th>Время, с</th></tr></thead>
+    <tbody id="temperature-summary"></tbody>
+  </table></div>
+  <p id="temperature-findings" aria-live="polite"></p>
+  <p>Уникальные тексты сравниваются посимвольно; итоги и наборы — среди ответов правильного формата.
+    Ошибки API не считаются ответами модели. Токены — сумма доступного usage;
+    отсутствие метрик отмечается как «нет данных». Время — сумма длительностей API-вызовов.</p>
+  <p>Результаты живут до обновления страницы или нового запуска. Постоянной истории и экспорта нет.</p>
+</section>
+<section><h2>Ответы по комбинациям</h2><div id="temperature-results"></div></section>
+<script src="{{ url_for('static', path='/day_04.js') }}?v={{ day_04_script_version }}" defer></script>
+{% endblock %}

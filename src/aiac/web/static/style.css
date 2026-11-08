@@ -95,3 +95,12 @@ small { display: block; color: var(--muted); }
   .experiment-controls { grid-template-columns: 1fr; }
   .experiment-actions { align-items: stretch; flex-direction: column; }
 }
+
+.temperature-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+.temperature-cards .run-card { min-width: 0; }
+.temperature-cards pre { white-space: pre-wrap; overflow-wrap: anywhere; }

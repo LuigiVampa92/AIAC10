@@ -22,7 +22,9 @@ class ReasoningResult:
     error: str | None = None
 
 
-async def complete(payload: dict[str, Any], settings: Settings) -> ReasoningResult:
+async def complete(
+    payload: dict[str, Any], settings: Settings, *, timeout_seconds: float = 120.0
+) -> ReasoningResult:
     if settings.aiac_llm_mode != "live" or settings.aiac_llm_provider != "openai":
         raise ModelError("Для эксперимента нужны live и провайдер openai.")
     key = settings.openai_api_key
@@ -31,7 +33,7 @@ async def complete(payload: dict[str, Any], settings: Settings) -> ReasoningResu
     started = perf_counter()
     try:
         async with AsyncOpenAI(
-            api_key=key.get_secret_value(), timeout=120.0, max_retries=0
+            api_key=key.get_secret_value(), timeout=timeout_seconds, max_retries=0
         ) as client:
             response = await client.responses.create(
                 **cast(ResponseCreateParamsNonStreaming, payload)

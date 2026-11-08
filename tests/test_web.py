@@ -32,7 +32,7 @@ def test_each_day_has_page_and_separate_module(client: TestClient, week: int, da
     assert "Критерии приёмки" not in response.text
     assert 'action="' + task.url + '"' in response.text
     run = client.post(task.url, data={"prompt": "Привет"})
-    if week == 1 and day in (2, 3):
+    if week == 1 and day in (2, 3, 4):
         assert run.status_code == 422
         assert "Используйте форму эксперимента" in run.text
         return

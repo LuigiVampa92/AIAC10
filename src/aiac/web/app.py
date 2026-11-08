@@ -11,7 +11,7 @@ from markdown_it import MarkdownIt
 from aiac.config import Settings
 from aiac.llm.client import ModelError
 from aiac.tasks.registry import TASKS, Task
-from aiac.tasks.week_01 import day_02, day_03
+from aiac.tasks.week_01 import day_02, day_03, day_04
 
 WEB = Path(__file__).parent
 app = FastAPI(title="AIAC · 35 заданий")
@@ -59,7 +59,9 @@ def task_page(
     )
     return templates.TemplateResponse(
         request=request,
-        name=(f"day_{task.day:02}.html" if task.week == 1 and task.day in (2, 3) else "task.html"),
+        name=(
+            f"day_{task.day:02}.html" if task.week == 1 and task.day in (2, 3, 4) else "task.html"
+        ),
         context={
             "task": task,
             "description": markdown.render(description),
@@ -77,6 +79,9 @@ def task_page(
             "day_03_tasks": day_03.TASKS,
             "day_03_methods": day_03.METHODS,
             "day_03_script_version": (WEB / "static" / "day_03.js").stat().st_mtime_ns,
+            "day_04_model": day_04.MODEL,
+            "day_04_tasks": day_04.TASKS,
+            "day_04_script_version": (WEB / "static" / "day_04.js").stat().st_mtime_ns,
         },
         status_code=status_code,
     )
@@ -96,7 +101,7 @@ async def task_run(
 ) -> HTMLResponse:
     task = get_task(week, day)
     settings = Settings()
-    if week == 1 and day in (2, 3):
+    if week == 1 and day in (2, 3, 4):
         return task_page(
             request,
             task,
@@ -153,5 +158,18 @@ async def day_03_run(config: day_03.RunInput) -> JSONResponse:
         return JSONResponse(await day_03.execute(config, Settings()))
     except ValueError as exc:
         return JSONResponse({"error": str(exc)}, status_code=422)
+    except ModelError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=503)
+
+
+@app.post("/weeks/1/days/4/plan")
+async def day_04_plan(config: day_04.Selection) -> JSONResponse:
+    return JSONResponse(day_04.plan(config))
+
+
+@app.post("/weeks/1/days/4/runs")
+async def day_04_run(config: day_04.RunInput) -> JSONResponse:
+    try:
+        return JSONResponse(await day_04.execute(config, Settings()))
     except ModelError as exc:
         return JSONResponse({"error": str(exc)}, status_code=503)
