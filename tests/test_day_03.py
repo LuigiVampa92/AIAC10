@@ -1,6 +1,7 @@
 import asyncio
 import itertools
 import json
+from fractions import Fraction
 from types import SimpleNamespace
 from unittest.mock import AsyncMock
 
@@ -14,27 +15,57 @@ from aiac.web.app import app
 
 
 def test_reference_answers():
-    assert day.get_task("price")["answer"] == str(1200 * 80 // 100 + 150)
+    original = 3 * 1290 + 2 * 875
+    discounted = Fraction(original) * (Fraction(85, 100) if original >= 5000 else 1)
+    discounted *= Fraction(88, 100)
+    rounded = -(-discounted.numerator // discounted.denominator)
+    assert day.get_task("price")["answer"] == str(rounded + (0 if rounded >= 4500 else 290))
     stack = []
-    for char in "abbaca":
+    for char in "cabbaabbacddceffegghhijkkji":
         if stack and stack[-1] == char:
             stack.pop()
         else:
             stack.append(char)
     assert day.get_task("string")["answer"] == "".join(stack)
-    edges = {frozenset(k): v for k, v in [("AB", 4), ("AC", 2), ("CB", 1), ("BD", 4), ("CD", 8)]}
+    edges = dict(
+        [
+            ("AB", 4),
+            ("AD", 2),
+            ("DB", 1),
+            ("BC", 5),
+            ("DE", 4),
+            ("EC", 1),
+            ("CF", 3),
+            ("EF", 2),
+            ("FG", 2),
+            ("BG", 4),
+            ("CG", 9),
+            ("DC", 9),
+        ]
+    )
     lengths = []
-    for size in range(3):
-        for middle in itertools.permutations("BC", size):
-            path = ("A", *middle, "D")
-            pairs = [frozenset(pair) for pair in itertools.pairwise(path)]
+    for size in range(1, 6):
+        for middle in itertools.permutations("BCDEF", size):
+            if "C" not in middle:
+                continue
+            path = ("A", *middle, "G")
+            pairs = ["".join(pair) for pair in itertools.pairwise(path)]
             if all(pair in edges for pair in pairs):
                 lengths.append(sum(edges[pair] for pair in pairs))
     assert day.get_task("graph")["answer"] == str(min(lengths))
-    intervals = [(0, 2), (1, 4), (2, 3), (3, 5), (4, 6)]
+    intervals = [
+        (0, 3, 5),
+        (1, 4, 8),
+        (3, 5, 6),
+        (4, 7, 10),
+        (5, 8, 7),
+        (7, 9, 6),
+        (8, 10, 9),
+        (9, 11, 8),
+    ]
     feasible = [
-        len(group)
-        for size in range(6)
+        sum(item[2] for item in group)
+        for size in range(len(intervals) + 1)
         for group in itertools.combinations(intervals, size)
         if all(a[1] <= b[0] for a, b in itertools.pairwise(group))
     ]
@@ -45,6 +76,27 @@ def test_reference_answers():
         if sum([name == "Борис", name != "Борис", name != "Анна"]) == 1
     ]
     assert culprits == [day.get_task("logic")["answer"]]
+
+
+def test_revised_task_set_is_used_in_every_method():
+    assert len(day.TASKS) == 5
+    assert day.plan(day.Selection())["task_set_version"] == "v2"
+    for task in day.TASKS:
+        for method in day.METHODS:
+            request = day.payload(
+                day.RunInput(
+                    task=task["id"], method=method, effort="none", generated_prompt="Реши задачу"
+                )
+            )
+            assert task["text"] in request["input"]
+        assert day.evaluate(json.dumps({"answer": task["answer"]}), task["id"], "direct")["correct"]
+    for task_id, old_answer in [
+        ("price", "1110"),
+        ("string", "ca"),
+        ("graph", "7"),
+        ("schedule", "3"),
+    ]:
+        assert not day.evaluate(json.dumps({"answer": old_answer}), task_id, "direct")["correct"]
 
 
 def test_plan_matrix_and_payloads():
