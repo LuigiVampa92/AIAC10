@@ -35,6 +35,7 @@
     return data;
   }
   function summary() {
+    globalThis.AiacReport?.set({day: 3, plan, runs: rows, created_at: plan.created_at, state: 'running'});
     el('summary').replaceChildren();
     for (const method of Object.keys(labels)) for (const effort of ['none', 'max']) {
       const expected = plan.runs.filter(r => r.method === method && r.effort === effort);
@@ -126,6 +127,7 @@
     } catch (error) {
       el('status').textContent = `${error.message} Автоматического повтора нет.`;
     } finally {
+      if (plan && rows.length) globalThis.AiacReport?.set({day: 3, plan, runs: rows, created_at: plan.created_at, state: fatal ? 'interrupted' : stopping ? 'stopped' : 'finished'});
       running = false;
       el('fields').disabled = false;
       el('stop').hidden = true;

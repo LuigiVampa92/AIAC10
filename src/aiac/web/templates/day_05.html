@@ -41,6 +41,8 @@
   они не определяют автоматически мощность выбранной модели.</p>
 </section>
 <section><h2>Сравнение по задачам</h2><div id="models-results"></div></section>
-<p>Результаты доступны до обновления страницы или новой серии. Архива и экспорта нет.</p>
+<p>Результаты доступны до обновления страницы или новой серии. Можно скачать Markdown-отчёт; автоматической серверной истории нет.</p>
 <script src="{{ url_for('static', path='/day_05.js') }}?v={{ day_05_script_version }}" defer></script>
+<button type="button" data-download-report data-day="5" disabled>Скачать отчёт</button>
+<p data-report-status role="status"></p>
 {% endblock %}

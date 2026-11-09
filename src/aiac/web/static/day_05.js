@@ -80,6 +80,7 @@ if (typeof module !== 'undefined') module.exports = {modelSummary};
     return config;
   }
   function summary() {
+    globalThis.AiacReport?.set({day: 5, plan, runs: rows, created_at: plan.created_at, state: 'running'});
     el('summary').replaceChildren();
     const stats = {};
     for (const role of Object.keys(roles)) {
@@ -155,6 +156,6 @@ if (typeof module !== 'undefined') module.exports = {modelSummary};
       }
       el('status').textContent = fatal ? 'Серия прервана. Автоматического повтора нет.' : stopping ? 'Серия остановлена. Частичные результаты доступны ниже.' : `Серия завершена: ${rows.length} вызовов.`;
     } catch (error) {el('status').textContent = `${error.message} Автоматического повтора нет.`;}
-    finally {running = false; el('fields').disabled = false;  el('stop').hidden = true; el('progress').hidden = true;}
+    finally {if (plan && rows.length) globalThis.AiacReport?.set({day: 5, plan, runs: rows, created_at: plan.created_at, state: fatal ? 'interrupted' : stopping ? 'stopped' : 'finished'}); running = false; el('fields').disabled = false;  el('stop').hidden = true; el('progress').hidden = true;}
   });
 })();

@@ -51,6 +51,11 @@
   </details>
 </section>
 {% endif %}
+{% if task.week == 1 and task.day == 1 %}
+{% if day_01_report %}<script id="day-01-report" type="application/json">{{ day_01_report | tojson }}</script>{% endif %}
+<button type="button" data-download-report data-day="1"{% if not day_01_report %} disabled{% endif %}>Скачать отчёт</button>
+<p data-report-status role="status"></p>
+{% endif %}
 </div>
 {% if task.week == 1 and task.day == 1 %}
 <script src="{{ url_for('static', path='/task.js') }}" defer></script>

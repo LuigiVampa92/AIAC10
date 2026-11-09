@@ -1,9 +1,11 @@
+import json
 from dataclasses import asdict
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Annotated
 
 from fastapi import FastAPI, Form, HTTPException, Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from markdown_it import MarkdownIt
@@ -11,6 +13,7 @@ from markdown_it import MarkdownIt
 from aiac.config import Settings
 from aiac.llm.catalog import list_models
 from aiac.llm.client import ModelError
+from aiac.reports.markdown import render as render_report
 from aiac.tasks.registry import TASKS, Task
 from aiac.tasks.week_01 import day_02, day_03, day_04, day_05
 
@@ -89,6 +92,25 @@ def task_page(
             "day_05_roles": day_05.ROLES,
             "day_05_tasks": day_03.TASKS,
             "day_05_script_version": (WEB / "static" / "day_05.js").stat().st_mtime_ns,
+            "day_01_report": (
+                {
+                    "day": 1,
+                    "state": "finished",
+                    "created_at": datetime.now(UTC).isoformat(),
+                    "plan": {"calls": 1, "request": json.loads(result["request_json"] or "{}")},
+                    "runs": [
+                        {
+                            **result,
+                            "request": json.loads(result["request_json"] or "{}"),
+                            "response": json.loads(result["response_json"] or "{}"),
+                            "status": json.loads(result["response_json"] or "{}").get("status"),
+                            "usage": json.loads(result["response_json"] or "{}").get("usage"),
+                        }
+                    ],
+                }
+                if result and (task.week, task.day) == (1, 1)
+                else None
+            ),
         },
         status_code=status_code,
     )
@@ -207,3 +229,32 @@ async def day_05_run(config: day_05.RunInput) -> JSONResponse:
         return JSONResponse({"error": str(exc)}, status_code=422)
     except ModelError as exc:
         return JSONResponse({"error": str(exc)}, status_code=503)
+
+
+@app.post("/weeks/1/days/{day}/report")
+async def download_report(day: int, request: Request) -> Response:
+    if day not in range(1, 6):
+        raise HTTPException(status_code=404, detail="Отчёт не найден")
+    body = await request.body()
+    if len(body) > 8_000_000:
+        raise HTTPException(status_code=413, detail="Слишком большой отчёт")
+    try:
+        snapshot = json.loads(body)
+        if (
+            not isinstance(snapshot, dict)
+            or not isinstance(snapshot.get("plan"), dict)
+            or not isinstance(snapshot.get("runs"), list)
+            or len(snapshot["runs"]) > 1500
+        ):
+            raise ValueError("Invalid snapshot")
+        text = render_report(day, snapshot)
+    except (ValueError, TypeError, KeyError, AttributeError):
+        return JSONResponse({"error": "Некорректные данные отчёта."}, status_code=422)
+    return Response(
+        text,
+        media_type="text/markdown",
+        headers={
+            "Content-Disposition": f'attachment; filename="week-01-day-{day:02}.md"',
+            "Cache-Control": "no-store",
+        },
+    )

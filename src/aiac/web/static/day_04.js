@@ -59,6 +59,7 @@ if (typeof module !== 'undefined') module.exports = {temperatureSummary};
   }
   const groupRows = group => rows.filter(r => r.task === group.task && r.temperature === group.temperature);
   function summary() {
+    globalThis.AiacReport?.set({day: 4, plan, runs: rows, created_at: plan.created_at, state: 'running'});
     el('summary').replaceChildren();
     const observations = [];
     for (const group of groups) {
@@ -160,6 +161,7 @@ if (typeof module !== 'undefined') module.exports = {temperatureSummary};
     } catch (error) {
       el('status').textContent = `${error.message} Автоматического повтора нет.`;
     } finally {
+      if (plan && rows.length) globalThis.AiacReport?.set({day: 4, plan, runs: rows, created_at: plan.created_at, state: fatal ? 'interrupted' : stopping ? 'stopped' : 'finished'});
       running = false;
       el('fields').disabled = false;
       el('stop').hidden = true;

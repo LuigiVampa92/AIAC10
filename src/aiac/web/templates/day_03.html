@@ -45,9 +45,11 @@
   </table></div>
   <p>Для создания промпта учитываются оба этапа. Токены рассуждения входят в выходные.
     Неизвестные метрики не заменяются нулями. Время — длительность API-вызовов, без пауз между ними.</p>
-  <p>Результаты доступны до обновления страницы. Вопрос постоянного сохранения отложен.
+  <p>Результаты доступны до обновления страницы. Отчёт можно скачать в Markdown.
     Новый запуск заменит текущую серию.</p>
 </section>
 <section><h2>Ответы и отладка</h2><div id="reasoning-results"></div></section>
 <script src="{{ url_for('static', path='/day_03.js') }}?v={{ day_03_script_version }}" defer></script>
+<button type="button" data-download-report data-day="3" disabled>Скачать отчёт</button>
+<p data-report-status role="status"></p>
 {% endblock %}

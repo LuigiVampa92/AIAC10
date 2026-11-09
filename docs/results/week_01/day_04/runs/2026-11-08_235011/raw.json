@@ -1,0 +1,4563 @@
+{
+  "version": 1,
+  "day": 4,
+  "week": 1,
+  "source": "tools/run_week_01.py; real API via shared task modules (not browser E2E)",
+  "created_at": "2026-11-08T23:55:23.554455+00:00",
+  "state": "finished",
+  "plan": {
+    "version": 1,
+    "model": "gpt-6-luna",
+    "reasoning": "none",
+    "runs": [
+      {
+        "task": "price",
+        "temperature": 0.0,
+        "repeat": 1
+      },
+      {
+        "task": "price",
+        "temperature": 0.0,
+        "repeat": 2
+      },
+      {
+        "task": "price",
+        "temperature": 0.0,
+        "repeat": 3
+      },
+      {
+        "task": "price",
+        "temperature": 0.0,
+        "repeat": 4
+      },
+      {
+        "task": "price",
+        "temperature": 0.0,
+        "repeat": 5
+      },
+      {
+        "task": "price",
+        "temperature": 0.7,
+        "repeat": 1
+      },
+      {
+        "task": "price",
+        "temperature": 0.7,
+        "repeat": 2
+      },
+      {
+        "task": "price",
+        "temperature": 0.7,
+        "repeat": 3
+      },
+      {
+        "task": "price",
+        "temperature": 0.7,
+        "repeat": 4
+      },
+      {
+        "task": "price",
+        "temperature": 0.7,
+        "repeat": 5
+      },
+      {
+        "task": "price",
+        "temperature": 1.2,
+        "repeat": 1
+      },
+      {
+        "task": "price",
+        "temperature": 1.2,
+        "repeat": 2
+      },
+      {
+        "task": "price",
+        "temperature": 1.2,
+        "repeat": 3
+      },
+      {
+        "task": "price",
+        "temperature": 1.2,
+        "repeat": 4
+      },
+      {
+        "task": "price",
+        "temperature": 1.2,
+        "repeat": 5
+      },
+      {
+        "task": "names",
+        "temperature": 0.0,
+        "repeat": 1
+      },
+      {
+        "task": "names",
+        "temperature": 0.0,
+        "repeat": 2
+      },
+      {
+        "task": "names",
+        "temperature": 0.0,
+        "repeat": 3
+      },
+      {
+        "task": "names",
+        "temperature": 0.0,
+        "repeat": 4
+      },
+      {
+        "task": "names",
+        "temperature": 0.0,
+        "repeat": 5
+      },
+      {
+        "task": "names",
+        "temperature": 0.7,
+        "repeat": 1
+      },
+      {
+        "task": "names",
+        "temperature": 0.7,
+        "repeat": 2
+      },
+      {
+        "task": "names",
+        "temperature": 0.7,
+        "repeat": 3
+      },
+      {
+        "task": "names",
+        "temperature": 0.7,
+        "repeat": 4
+      },
+      {
+        "task": "names",
+        "temperature": 0.7,
+        "repeat": 5
+      },
+      {
+        "task": "names",
+        "temperature": 1.2,
+        "repeat": 1
+      },
+      {
+        "task": "names",
+        "temperature": 1.2,
+        "repeat": 2
+      },
+      {
+        "task": "names",
+        "temperature": 1.2,
+        "repeat": 3
+      },
+      {
+        "task": "names",
+        "temperature": 1.2,
+        "repeat": 4
+      },
+      {
+        "task": "names",
+        "temperature": 1.2,
+        "repeat": 5
+      }
+    ],
+    "calls": 30,
+    "repeats": 5,
+    "prompts": {
+      "price": {
+        "title": "Покупка",
+        "prompt": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей."
+      },
+      "names": {
+        "title": "Названия приложения",
+        "prompt": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей."
+      }
+    },
+    "max_output_tokens": 1024,
+    "timeout_seconds": 60,
+    "created_at": "2026-11-08T23:55:23.554805+00:00"
+  },
+  "runs": [
+    {
+      "task": "price",
+      "temperature": 0.0,
+      "repeat": 1,
+      "response": {
+        "id": "resp_019e2881f801b798016af10bebce5c87d2a9b637f8eb62a4e5",
+        "created_at": 1794182123.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_019e2881f801b798016af10bec6edc87d2b89252938215609b",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"4500\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290, итого 4498.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182125.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 76,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 243
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"4500\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290, итого 4498.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.894,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 0.0,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 76,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 243
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "4500",
+      "names": [],
+      "created_at": "2026-11-08T23:55:25.449500+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "price",
+      "temperature": 0.0,
+      "repeat": 2,
+      "response": {
+        "id": "resp_0abe419f981d2aae016af10bedc33487d2adc952c8bc141827",
+        "created_at": 1794182125.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0abe419f981d2aae016af10bee6d7887d2999efb589ded781f",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"4500\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290 рублей, итого 4498.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182127.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 77,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 244
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"4500\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290 рублей, итого 4498.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.921,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 0.0,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 77,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 244
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "4500",
+      "names": [],
+      "created_at": "2026-11-08T23:55:27.371936+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "price",
+      "temperature": 0.0,
+      "repeat": 3,
+      "response": {
+        "id": "resp_06bc85a95ca545f2016af10befb33087d2ba194115f1d159e4",
+        "created_at": 1794182127.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_06bc85a95ca545f2016af10bf0540487d2a29892ceee476cf2",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"4500\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4206,16; округляем вверх до 4207. Доставка стоит 290, итого 4497.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182129.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 76,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 243
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"4500\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4206,16; округляем вверх до 4207. Доставка стоит 290, итого 4497.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.945,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 0.0,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 76,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 243
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "4500",
+      "names": [],
+      "created_at": "2026-11-08T23:55:29.317313+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "price",
+      "temperature": 0.0,
+      "repeat": 4,
+      "response": {
+        "id": "resp_026ee44168b3f606016af10bf18c0087d2911a7ff5dcc28e4b",
+        "created_at": 1794182129.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_026ee44168b3f606016af10bf229dc87d2aab6c6f8fff6d960",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"4500\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290 рублей, итого 4498.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182130.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 77,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 244
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"4500\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290 рублей, итого 4498.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.596,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 0.0,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 77,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 244
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "4500",
+      "names": [],
+      "created_at": "2026-11-08T23:55:30.914220+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "price",
+      "temperature": 0.0,
+      "repeat": 5,
+      "response": {
+        "id": "resp_07975b3b214dcc3b016af10bf399f887d2827e3c7d51679ff5",
+        "created_at": 1794182131.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_07975b3b214dcc3b016af10bf43c9c87d2821813031587117e",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"4388\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290, так как сумма меньше 4500. Итого: 4498.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182133.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 85,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 252
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"4388\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290, так как сумма меньше 4500. Итого: 4498.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 2.351,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 0.0,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 85,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 252
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "4388",
+      "names": [],
+      "created_at": "2026-11-08T23:55:33.266002+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "price",
+      "temperature": 0.7,
+      "repeat": 1,
+      "response": {
+        "id": "resp_07748ef1b411eebd016af10bf57fa487d2b2a2d9fd2d80b553",
+        "created_at": 1794182133.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_07748ef1b411eebd016af10bf623a087d2a775413860ba74a0",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"4166\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290 рублей, итого 4498.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.7,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182134.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 77,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 244
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"4166\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290 рублей, итого 4498.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.671,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 0.7,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 77,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 244
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "4166",
+      "names": [],
+      "created_at": "2026-11-08T23:55:34.937986+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "price",
+      "temperature": 0.7,
+      "repeat": 2,
+      "response": {
+        "id": "resp_0e72c8a1ae492561016af10bf72a0887d2a5ee55a0fac75dda",
+        "created_at": 1794182135.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0e72c8a1ae492561016af10bf7cda487d2b0fc3a5858435399",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"4554\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290 рублей, итого 4208 + 290 = 4498.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.7,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182136.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 84,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 251
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"4554\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290 рублей, итого 4208 + 290 = 4498.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.738,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 0.7,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 84,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 251
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "4554",
+      "names": [],
+      "created_at": "2026-11-08T23:55:36.677456+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "price",
+      "temperature": 0.7,
+      "repeat": 3,
+      "response": {
+        "id": "resp_09b6266f9033861c016af10bf8e94c87d295b647b0547c3187",
+        "created_at": 1794182136.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_09b6266f9033861c016af10bf9b5a487d2afe28e461a339c68",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"4257\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290, итого 4498.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.7,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182138.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 76,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 243
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"4257\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290, итого 4498.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.876,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 0.7,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 76,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 243
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "4257",
+      "names": [],
+      "created_at": "2026-11-08T23:55:38.554881+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "price",
+      "temperature": 0.7,
+      "repeat": 4,
+      "response": {
+        "id": "resp_0c1b4257cc9ac756016af10bfac82487d28fbdcf0976b37034",
+        "created_at": 1794182138.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0c1b4257cc9ac756016af10bfb781887d2872888131239c441",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"4592\",\"explanation\":\"Исходная стоимость: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76; округляем вверх до 4208. Доставка стоит 290, так как сумма меньше 4500. Итого: 4498.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.7,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182140.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 85,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 252
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"4592\",\"explanation\":\"Исходная стоимость: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76; округляем вверх до 4208. Доставка стоит 290, так как сумма меньше 4500. Итого: 4498.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.861,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 0.7,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 85,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 252
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "4592",
+      "names": [],
+      "created_at": "2026-11-08T23:55:40.416749+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "price",
+      "temperature": 0.7,
+      "repeat": 5,
+      "response": {
+        "id": "resp_08314ccf73a569e8016af10bfcb05487d2b6da983148500a30",
+        "created_at": 1794182140.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_08314ccf73a569e8016af10bfd5bd887d2b10c538ae07a17c3",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"4517\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290 рублей, итого 4498.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.7,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182142.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 77,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 244
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"4517\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290 рублей, итого 4498.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.84,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 0.7,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 77,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 244
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "4517",
+      "names": [],
+      "created_at": "2026-11-08T23:55:42.257854+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "price",
+      "temperature": 1.2,
+      "repeat": 1,
+      "response": {
+        "id": "resp_0677b20768ee8ab6016af10bfe882087d2917faa41c2874a5c",
+        "created_at": 1794182142.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0677b20768ee8ab6016af10bff21cc87d2a223c2ab646c54d9",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"4284\",\"explanation\":\"Товары стоят 3×1290 + 2×875 = 5620 руб. После скидок: 5620×0,85×0,88 = 4207,76 руб., округляем вверх до 4208. Сумма меньше 4500, поэтому доставка — 290 руб. Итого 4498 руб.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.2,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182143.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 87,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 254
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"4284\",\"explanation\":\"Товары стоят 3×1290 + 2×875 = 5620 руб. После скидок: 5620×0,85×0,88 = 4207,76 руб., округляем вверх до 4208. Сумма меньше 4500, поэтому доставка — 290 руб. Итого 4498 руб.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.668,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 1.2,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 87,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 254
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "4284",
+      "names": [],
+      "created_at": "2026-11-08T23:55:43.926895+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "price",
+      "temperature": 1.2,
+      "repeat": 2,
+      "response": {
+        "id": "resp_0d9f8b869809773b016af10c0043b887d2baca8505fb3e1094",
+        "created_at": 1794182144.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0d9f8b869809773b016af10c01194c87d2b2b4d02767d07de3",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"4910\",\"explanation\":\"Исходная стоимость: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4206,16; округляем вверх до 4207. Это меньше 4500, поэтому доставка стоит 290. Итого: 4207 + 290 = 4497.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.2,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182145.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 90,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 257
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"4910\",\"explanation\":\"Исходная стоимость: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4206,16; округляем вверх до 4207. Это меньше 4500, поэтому доставка стоит 290. Итого: 4207 + 290 = 4497.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 2.024,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 1.2,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 90,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 257
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "4910",
+      "names": [],
+      "created_at": "2026-11-08T23:55:45.952311+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "price",
+      "temperature": 1.2,
+      "repeat": 3,
+      "response": {
+        "id": "resp_0b9b372796132c09016af10c0235a087d28b1e3197420473f4",
+        "created_at": 1794182146.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0b9b372796132c09016af10c03a85487d282ccf661783d8b9b",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"4476\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290 рублей, итого 4498.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.2,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182148.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 77,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 244
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"4476\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Доставка стоит 290 рублей, итого 4498.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 2.638,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 1.2,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 77,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 244
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "4476",
+      "names": [],
+      "created_at": "2026-11-08T23:55:48.591133+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "price",
+      "temperature": 1.2,
+      "repeat": 4,
+      "response": {
+        "id": "resp_0715f9a25dcd6f68016af10c04d5b887d2b9f53b7c49cca7de",
+        "created_at": 1794182148.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0715f9a25dcd6f68016af10c07bf3087d2a47d694e2a8cf246",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"4456\",\"explanation\":\"Исходная стоимость: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Это меньше 4500, поэтому доставка стоит 290. Итого: 4498.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.2,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182152.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 83,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 250
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"4456\",\"explanation\":\"Исходная стоимость: 3×1290 + 2×875 = 5620. После скидок: 5620×0,85×0,88 = 4207,76, округляем вверх до 4208. Это меньше 4500, поэтому доставка стоит 290. Итого: 4498.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 3.935,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 1.2,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 83,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 250
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "4456",
+      "names": [],
+      "created_at": "2026-11-08T23:55:52.527991+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "price",
+      "temperature": 1.2,
+      "repeat": 5,
+      "response": {
+        "id": "resp_0a8fcb8ce28b2462016af10c08c49087d29a79c9c507fed417",
+        "created_at": 1794182152.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0a8fcb8ce28b2462016af10c0da32887d28aceb4ffe0b1ff9e",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"answer\":\"3941\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5610. После скидок: 5610×0,85×0,88 = 4201,08, округляем вверх до 4202. Это меньше 4500, поэтому доставка стоит 290. Итого: 4202 + 290 = 4492.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.2,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182158.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 167,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 90,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 257
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"answer\":\"3941\",\"explanation\":\"Исходная сумма: 3×1290 + 2×875 = 5610. После скидок: 5610×0,85×0,88 = 4201,08, округляем вверх до 4202. Это меньше 4500, поэтому доставка стоит 290. Итого: 4202 + 290 = 4492.\"}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 5.943,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "В корзине 3 товара по 1290 рублей и 2 товара по 875 рублей. Если исходная сумма товаров не меньше 5000 рублей, сначала действует скидка 15%. Затем купон уменьшает полученную стоимость товаров ещё на 12%. После обеих скидок стоимость товаров округляют вверх до целого рубля (промежуточного округления нет). Доставка бесплатна, если округлённая стоимость товаров не меньше 4500 рублей, иначе стоит 290 рублей. Сколько рублей нужно заплатить вместе с доставкой? Верни только JSON с двумя строковыми полями answer и explanation. В answer укажи итоговое целое число без единиц измерения, в explanation — краткое объяснение. Без Markdown и дополнительных полей.",
+        "temperature": 1.2,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 167,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 90,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 257
+      },
+      "format_valid": true,
+      "correct": false,
+      "normalized": "3941",
+      "names": [],
+      "created_at": "2026-11-08T23:55:58.472434+00:00",
+      "evaluation": "Ошибка формата или неверный итог."
+    },
+    {
+      "task": "names",
+      "temperature": 0.0,
+      "repeat": 1,
+      "response": {
+        "id": "resp_0e3bc428c7451f7e016af10c0eba9c87d286b4f0bd92d00c33",
+        "created_at": 1794182158.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0e3bc428c7451f7e016af10c0f888c87d2affc15d36d0eb063",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный помощник\",\"Умный росток\",\"Домашний сад\",\"Листовой доктор\",\"Цветочный календарь\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182159.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 37,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 131
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный помощник\",\"Умный росток\",\"Домашний сад\",\"Листовой доктор\",\"Цветочный календарь\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.558,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 0.0,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 37,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 131
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "домашний сад",
+        "зелёный помощник",
+        "листовой доктор",
+        "умный росток",
+        "цветочный календарь"
+      ],
+      "names": [
+        "зелёный помощник",
+        "умный росток",
+        "домашний сад",
+        "листовой доктор",
+        "цветочный календарь"
+      ],
+      "created_at": "2026-11-08T23:56:00.033764+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    },
+    {
+      "task": "names",
+      "temperature": 0.0,
+      "repeat": 2,
+      "response": {
+        "id": "resp_04442404a1d89e4a016af10c10481487d2802060eb768ea261",
+        "created_at": 1794182160.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_04442404a1d89e4a016af10c1110b887d28ed5fa01f940a749",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный помощник\",\"Листовой дневник\",\"Цветочный уход\",\"Домашний сад\",\"Растительный доктор\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182161.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 36,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 130
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный помощник\",\"Листовой дневник\",\"Цветочный уход\",\"Домашний сад\",\"Растительный доктор\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.864,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 0.0,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 36,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 130
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "домашний сад",
+        "зелёный помощник",
+        "листовой дневник",
+        "растительный доктор",
+        "цветочный уход"
+      ],
+      "names": [
+        "зелёный помощник",
+        "листовой дневник",
+        "цветочный уход",
+        "домашний сад",
+        "растительный доктор"
+      ],
+      "created_at": "2026-11-08T23:56:01.900149+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    },
+    {
+      "task": "names",
+      "temperature": 0.0,
+      "repeat": 3,
+      "response": {
+        "id": "resp_054278c4f620ab39016af10c12241887d2b9c6c2cee978e675",
+        "created_at": 1794182162.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_054278c4f620ab39016af10c12860487d2b3ede43e6629eee3",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный помощник\",\"Листовой дневник\",\"Цветочный календарь\",\"Домашний садовник\",\"Растительная забота\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182162.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 40,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 134
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный помощник\",\"Листовой дневник\",\"Цветочный календарь\",\"Домашний садовник\",\"Растительная забота\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.206,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 0.0,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 40,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 134
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "домашний садовник",
+        "зелёный помощник",
+        "листовой дневник",
+        "растительная забота",
+        "цветочный календарь"
+      ],
+      "names": [
+        "зелёный помощник",
+        "листовой дневник",
+        "цветочный календарь",
+        "домашний садовник",
+        "растительная забота"
+      ],
+      "created_at": "2026-11-08T23:56:03.109508+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    },
+    {
+      "task": "names",
+      "temperature": 0.0,
+      "repeat": 4,
+      "response": {
+        "id": "resp_0647334602ed6e79016af10c136a0c87d2960217ee85451e1d",
+        "created_at": 1794182163.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0647334602ed6e79016af10c13e36487d2ad5e4ce25e0c8916",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный помощник\",\"Умный росток\",\"Домашний сад\",\"Листовой доктор\",\"Цветочный календарь\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182164.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 37,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 131
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный помощник\",\"Умный росток\",\"Домашний сад\",\"Листовой доктор\",\"Цветочный календарь\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.253,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 0.0,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 37,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 131
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "домашний сад",
+        "зелёный помощник",
+        "листовой доктор",
+        "умный росток",
+        "цветочный календарь"
+      ],
+      "names": [
+        "зелёный помощник",
+        "умный росток",
+        "домашний сад",
+        "листовой доктор",
+        "цветочный календарь"
+      ],
+      "created_at": "2026-11-08T23:56:04.364522+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    },
+    {
+      "task": "names",
+      "temperature": 0.0,
+      "repeat": 5,
+      "response": {
+        "id": "resp_0a964f1ce16ab4b6016af10c149f9887d295eddfaa61b174f9",
+        "created_at": 1794182164.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0a964f1ce16ab4b6016af10c150f4087d2a1f184879e37c5d0",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный помощник\",\"Листовой дневник\",\"Цветочный уход\",\"Растительный доктор\",\"Домашний садовник\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182165.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 38,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 132
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный помощник\",\"Листовой дневник\",\"Цветочный уход\",\"Растительный доктор\",\"Домашний садовник\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.23,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 0.0,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 38,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 132
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "домашний садовник",
+        "зелёный помощник",
+        "листовой дневник",
+        "растительный доктор",
+        "цветочный уход"
+      ],
+      "names": [
+        "зелёный помощник",
+        "листовой дневник",
+        "цветочный уход",
+        "растительный доктор",
+        "домашний садовник"
+      ],
+      "created_at": "2026-11-08T23:56:05.596812+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    },
+    {
+      "task": "names",
+      "temperature": 0.7,
+      "repeat": 1,
+      "response": {
+        "id": "resp_04593b0ffbc00d00016af10c15d79087d2933e3145ca106dfe",
+        "created_at": 1794182165.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_04593b0ffbc00d00016af10c16393c87d29144b48c1c6d7751",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный друг\",\"Листовой доктор\",\"Растительный дневник\",\"Цветочный помощник\",\"Домашняя оранжерея\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.7,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182166.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 40,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 134
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный друг\",\"Листовой доктор\",\"Растительный дневник\",\"Цветочный помощник\",\"Домашняя оранжерея\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.197,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 0.7,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 40,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 134
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "домашняя оранжерея",
+        "зелёный друг",
+        "листовой доктор",
+        "растительный дневник",
+        "цветочный помощник"
+      ],
+      "names": [
+        "зелёный друг",
+        "листовой доктор",
+        "растительный дневник",
+        "цветочный помощник",
+        "домашняя оранжерея"
+      ],
+      "created_at": "2026-11-08T23:56:06.795450+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    },
+    {
+      "task": "names",
+      "temperature": 0.7,
+      "repeat": 2,
+      "response": {
+        "id": "resp_022df7506995864c016af10c171bf087d29f8d434e83917274",
+        "created_at": 1794182167.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_022df7506995864c016af10c17ec2c87d2b1168e7ada87eb0d",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный помощник\",\"Растительный доктор\",\"Домашний садовник\",\"Листовой календарь\",\"Умный росток\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.7,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182168.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 39,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 133
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный помощник\",\"Растительный доктор\",\"Домашний садовник\",\"Листовой календарь\",\"Умный росток\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.84,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 0.7,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 39,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 133
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "домашний садовник",
+        "зелёный помощник",
+        "листовой календарь",
+        "растительный доктор",
+        "умный росток"
+      ],
+      "names": [
+        "зелёный помощник",
+        "растительный доктор",
+        "домашний садовник",
+        "листовой календарь",
+        "умный росток"
+      ],
+      "created_at": "2026-11-08T23:56:08.639079+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    },
+    {
+      "task": "names",
+      "temperature": 0.7,
+      "repeat": 3,
+      "response": {
+        "id": "resp_0bc1e86f7aa19410016af10c18ec7487d2b7f81f3b9862ca42",
+        "created_at": 1794182168.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0bc1e86f7aa19410016af10c195e2487d2a1d88e70c924b9ba",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный помощник\",\"Умный росток\",\"Домашний сад\",\"Листовой доктор\",\"Цветочный календарь\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.7,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182169.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 37,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 131
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный помощник\",\"Умный росток\",\"Домашний сад\",\"Листовой доктор\",\"Цветочный календарь\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.146,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 0.7,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 37,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 131
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "домашний сад",
+        "зелёный помощник",
+        "листовой доктор",
+        "умный росток",
+        "цветочный календарь"
+      ],
+      "names": [
+        "зелёный помощник",
+        "умный росток",
+        "домашний сад",
+        "листовой доктор",
+        "цветочный календарь"
+      ],
+      "created_at": "2026-11-08T23:56:09.787360+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    },
+    {
+      "task": "names",
+      "temperature": 0.7,
+      "repeat": 4,
+      "response": {
+        "id": "resp_07c9c76c44dc636d016af10c1a145c87d28ecd83b7f43849cb",
+        "created_at": 1794182170.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_07c9c76c44dc636d016af10c1bd45887d2929e5ebb5fe12889",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный помощник\",\"Умный садовник\",\"Листовой доктор\",\"Домашняя оранжерея\",\"Цветочный календарь\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.7,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182172.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 42,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 136
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный помощник\",\"Умный садовник\",\"Листовой доктор\",\"Домашняя оранжерея\",\"Цветочный календарь\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 2.75,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 0.7,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 42,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 136
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "домашняя оранжерея",
+        "зелёный помощник",
+        "листовой доктор",
+        "умный садовник",
+        "цветочный календарь"
+      ],
+      "names": [
+        "зелёный помощник",
+        "умный садовник",
+        "листовой доктор",
+        "домашняя оранжерея",
+        "цветочный календарь"
+      ],
+      "created_at": "2026-11-08T23:56:12.540105+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    },
+    {
+      "task": "names",
+      "temperature": 0.7,
+      "repeat": 5,
+      "response": {
+        "id": "resp_0d1aaabccc36ee49016af10c1cc8ac87d2b4820ee7f690db64",
+        "created_at": 1794182172.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0d1aaabccc36ee49016af10c1d4eec87d28dc7ee5d836bec37",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный помощник\",\"Листовой дневник\",\"Растущий сад\",\"Цветочный заботник\",\"Домашняя оранжерея\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 0.7,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182173.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 41,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 135
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный помощник\",\"Листовой дневник\",\"Растущий сад\",\"Цветочный заботник\",\"Домашняя оранжерея\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.361,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 0.7,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 41,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 135
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "домашняя оранжерея",
+        "зелёный помощник",
+        "листовой дневник",
+        "растущий сад",
+        "цветочный заботник"
+      ],
+      "names": [
+        "зелёный помощник",
+        "листовой дневник",
+        "растущий сад",
+        "цветочный заботник",
+        "домашняя оранжерея"
+      ],
+      "created_at": "2026-11-08T23:56:13.903406+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    },
+    {
+      "task": "names",
+      "temperature": 1.2,
+      "repeat": 1,
+      "response": {
+        "id": "resp_068b1fa1065d37fe016af10c1e243887d2aa1c8983260a92b9",
+        "created_at": 1794182174.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_068b1fa1065d37fe016af10c1e7c0487d29447ac772e66216f",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный заботник\",\"Листовая опека\",\"Домашний садовник\",\"Росток помощник\",\"Цветочный календарь\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.2,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182175.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 39,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 133
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный заботник\",\"Листовая опека\",\"Домашний садовник\",\"Росток помощник\",\"Цветочный календарь\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.209,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 1.2,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 39,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 133
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "домашний садовник",
+        "зелёный заботник",
+        "листовая опека",
+        "росток помощник",
+        "цветочный календарь"
+      ],
+      "names": [
+        "зелёный заботник",
+        "листовая опека",
+        "домашний садовник",
+        "росток помощник",
+        "цветочный календарь"
+      ],
+      "created_at": "2026-11-08T23:56:15.116271+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    },
+    {
+      "task": "names",
+      "temperature": 1.2,
+      "repeat": 2,
+      "response": {
+        "id": "resp_0f52d20af8dbc338016af10c1f5d9c87d288e16a2147a72bd9",
+        "created_at": 1794182175.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0f52d20af8dbc338016af10c1fbcc887d29f2081fdfa420c97",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный уголок\",\"Листовая забота\",\"Цветочный помощник\",\"Растущий сад\",\"Домашняя флора\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.2,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182176.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 38,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 132
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный уголок\",\"Листовая забота\",\"Цветочный помощник\",\"Растущий сад\",\"Домашняя флора\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.17,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 1.2,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 38,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 132
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "домашняя флора",
+        "зелёный уголок",
+        "листовая забота",
+        "растущий сад",
+        "цветочный помощник"
+      ],
+      "names": [
+        "зелёный уголок",
+        "листовая забота",
+        "цветочный помощник",
+        "растущий сад",
+        "домашняя флора"
+      ],
+      "created_at": "2026-11-08T23:56:16.289076+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    },
+    {
+      "task": "names",
+      "temperature": 1.2,
+      "repeat": 3,
+      "response": {
+        "id": "resp_0dd22d4b22142b2b016af10c2086c487d2a7d87012ee42f918",
+        "created_at": 1794182176.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_0dd22d4b22142b2b016af10c21087087d2b1871bf9e8746c07",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный помощник\",\"Листовая забота\",\"Домашний садовник\",\"Растительный дневник\",\"Цветочный уход\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.2,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182177.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 39,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 133
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный помощник\",\"Листовая забота\",\"Домашний садовник\",\"Растительный дневник\",\"Цветочный уход\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.258,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 1.2,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 39,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 133
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "домашний садовник",
+        "зелёный помощник",
+        "листовая забота",
+        "растительный дневник",
+        "цветочный уход"
+      ],
+      "names": [
+        "зелёный помощник",
+        "листовая забота",
+        "домашний садовник",
+        "растительный дневник",
+        "цветочный уход"
+      ],
+      "created_at": "2026-11-08T23:56:17.549786+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    },
+    {
+      "task": "names",
+      "temperature": 1.2,
+      "repeat": 4,
+      "response": {
+        "id": "resp_04cf6ca1373e1637016af10c21dbc087d2b4875a695f767b5c",
+        "created_at": 1794182177.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_04cf6ca1373e1637016af10c22398087d2b690e38f7c737243",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный друг\",\"Листовой помощник\",\"Цветочный календарь\",\"Домашний сад\",\"Бережный рост\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.2,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182178.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 36,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 130
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный друг\",\"Листовой помощник\",\"Цветочный календарь\",\"Домашний сад\",\"Бережный рост\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.298,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 1.2,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 36,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 130
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "бережный рост",
+        "домашний сад",
+        "зелёный друг",
+        "листовой помощник",
+        "цветочный календарь"
+      ],
+      "names": [
+        "зелёный друг",
+        "листовой помощник",
+        "цветочный календарь",
+        "домашний сад",
+        "бережный рост"
+      ],
+      "created_at": "2026-11-08T23:56:18.850939+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    },
+    {
+      "task": "names",
+      "temperature": 1.2,
+      "repeat": 5,
+      "response": {
+        "id": "resp_081e1497a2d4918a016af10c2322f487d2917d9b74c64906d2",
+        "created_at": 1794182179.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "msg_081e1497a2d4918a016af10c238c9887d2b6ecd75a2427897f",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"names\":[\"Зелёный помощник\",\"Умный росток\",\"Цветочный календарь\",\"Домашний сад\",\"Заботливый листок\"]}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.2,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794182180.0,
+        "conversation": null,
+        "max_output_tokens": 1024,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 94,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 40,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 134
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "text": "{\"names\":[\"Зелёный помощник\",\"Умный росток\",\"Цветочный календарь\",\"Домашний сад\",\"Заботливый листок\"]}",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "seconds": 1.358,
+      "error": null,
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Придумай пять разных названий приложения для ухода за домашними растениями. Каждое название должно состоять ровно из двух русских слов: только русские буквы, разделённые одним пробелом, без цифр и знаков препинания. Верни только JSON вида {\"names\":[\"Первое название\", ...]} с пятью названиями. Без Markdown, пояснений и дополнительных полей.",
+        "temperature": 1.2,
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 1024,
+        "store": false
+      },
+      "usage": {
+        "input_tokens": 94,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 40,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 134
+      },
+      "format_valid": true,
+      "correct": null,
+      "normalized": [
+        "домашний сад",
+        "заботливый листок",
+        "зелёный помощник",
+        "умный росток",
+        "цветочный календарь"
+      ],
+      "names": [
+        "зелёный помощник",
+        "умный росток",
+        "цветочный календарь",
+        "домашний сад",
+        "заботливый листок"
+      ],
+      "created_at": "2026-11-08T23:56:20.212429+00:00",
+      "evaluation": "Формат соблюдён; качество названий оцените при просмотре."
+    }
+  ],
+  "finished_at": "2026-11-08T23:56:20.215587+00:00"
+}

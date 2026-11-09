@@ -1,0 +1,153 @@
+{
+  "version": 1,
+  "day": 1,
+  "week": 1,
+  "source": "tools/run_week_01.py; real API via shared task modules (not browser E2E)",
+  "created_at": "2026-11-08T23:50:11.527825+00:00",
+  "state": "finished",
+  "plan": {
+    "calls": 1,
+    "model": "gpt-6-luna",
+    "prompt": "Объясни простыми словами, что такое языковая модель, в трёх коротких предложениях."
+  },
+  "runs": [
+    {
+      "text": "Языковая модель — это программа, которая умеет работать с текстом. Она учится на множестве примеров и предсказывает, какие слова подойдут дальше. Поэтому она может отвечать на вопросы и помогать писать.",
+      "mode": "live",
+      "model": "gpt-6-luna",
+      "request_json": "{\n  \"model\": \"gpt-6-luna\",\n  \"input\": \"Объясни простыми словами, что такое языковая модель, в трёх коротких предложениях.\",\n  \"max_output_tokens\": 512\n}",
+      "response_json": "{\n  \"id\": \"resp_06be29519eadd743006af10ab4001087d2af5a15466ca783dc\",\n  \"created_at\": 1794181812.0,\n  \"error\": null,\n  \"incomplete_details\": null,\n  \"instructions\": null,\n  \"metadata\": {},\n  \"model\": \"gpt-6-luna\",\n  \"object\": \"response\",\n  \"output\": [\n    {\n      \"id\": \"rs_06be29519eadd743006af10ab5d44087d2a1130952e580fd9e\",\n      \"summary\": [],\n      \"type\": \"reasoning\",\n      \"content\": [],\n      \"encrypted_content\": \"gAAAAABq8Qq38TX2yHe0d8WSed6Gl5vC-4zwO8ATkJ9KyfViVZNYNlLui_J225TJZDgOy9csjd1gim8KTXB9y2G87c8vKwUbS2DSU4didIye3IsvqNolJQYxIO8v8Yw36E5GBhClE3m1LOzZ4uzeHfNgMlCcXFp2DO_W30YsimM7n0UHh8yBvPNSmmWcb2NHLJeUnc0FRvQOkzwG-eY-imZlXDku2QfEtZb-ynnLNICjnwg6PsiIpXbnC-mwHnYlB9Kxil3gib7slW2r14ycVNFdiJZT4S4C0KMBEXRm6xP7HlS0-nIM6pfqJ0eEp5bSTJK903UcfQHMc1DxZyxPxdXsPEM-tLL2vHmcvuSgR1MVOZv5JYL3RaoEWKMNGIok_g-YVeP5XYrgGFEr2JrQ5qVf14T0CRRI5_rCtIo18fgGhIAGS5LsTxoTQ0eBf22-TBSArvoCVcFr-RQHtz3frvTL6HDYNOLlIB7YOTnopvK1f5LwLWD-bV0IKWPbUckKHnCY7q_we9Bm30FMjFxueYyerdkMJVTmnn2iWciW0Rab79pX5uO7W5IXLlCjWWqUuwAZVSDN5P5q8O5XrI1EDO6Moe3XRYWN_XNRJgyji_om1msQOQ0UwZGf7cPNzxgYQmKsX6ZJfhX7pKKNO5MaSdaC8V9wq2B3VOYJtAZXpjDZceM8nzYOECZXEF-5yDM8q4AXiqawF3CQbGRf522sdUc4QVWQ0cN7hYiPENZuBsJDr7Mh93wIwN3Xe22REArqBaOlBIzaWLG5hiWw_UVJ6v4thdHpO53ug_AuTV8nYDa1nGfEliwhIhPrmBSgBNW0Tkl6MVcdmU6Ll_UAEH0rcdVRK8mUBoG7KT2oYIHtCg1jgLIawFnrkufaPgLCjbRjnGRFaXPn9i9WVOCbmG8LSY7hs5nwn2gcl6o2SdG3HAr2xJhlsJ2pmSF9deWu-QUe1-0KpnoFgo8cHRkbuxxvRSYY46f69KCFPfPqvc43AR_8nXYcTMxgrZruct1v8F5pR7ncL3jY_9SRBnjCYGFDJPLPxVKLEu9pdWh1jUy7l6cFAdIf3ChfAAJIusiYf8R0XUlsNGtLdA-U4pY9tcWW9b9R5kYHE2cSPT3SN00blmU7m--Mi1IVjHVHx0LFYyIT78fmzbzntDBveUXwS_SF6GOOYyH-JIu8hZpnTMXcN6VYX3vJ7mQDzOMSZD94BjnMByoN9bd5W9ztvhp4q867CpjjOjkR-0SfkK5shGnsqVdPbaGVWf2B7eIHdIOlACkbAzudfc1oOwBUsb3dIkSOKCPnFeKeipF_Xuqrp0TQzkh8Ol0r-vLtREiSNMFBqr5OApcNUtSiFjFfF_3UoZo1QJmvAdEucxZfLoHxZ5sCh8BPZaR20c6fSMuR1bezgzkRtnKt1dasHxXHEL4U03uod4dSOOxE6E-NOeDU7xS5R4tFClhJ2ApRmZl_n4suUf8Acpt0HXnt5l1ONdI9dA56J85HdkykQznXaGeE57cqiv1pZaCjyJ_v4ArnVlCbbhF87_OV1TBaDcxw1lsqTeB7t11N9fDxE8-F7lMFYd3naSDJWvJXqmUzhm1C9ih66HAKEKBP-gP2JcPoCvH4l2XQT4Aopk_hPv0hDTx9XciLGvBI4axbRptHm5nwxedX5CY24daSUi8RygexdfRsVh9EXHL7kAXkA9IBu68qpJ6a5zPMRYnqbyXVwkptdVcwWCPqmLXqc3BVHkh2_EtmIFQ3u0NTwsnPyb3FRrHiBqALw2agD_x9axjK7q36WbMIBTbl8exgM81EzQsDKxqLfefU_8UBYEd3lD2HbrvAq8-YIl5LW55MjknL-loXcgjWj-2ULQlvkbtJvO0pBrHpn4KdvkB4NQSnnqRhGEE6fCH5gilCBNKgYJ2cCXbrKtyRhKs16kXtfxbIiMQ9g1Z56Ntk0v0HzJdW4DLPsPmO_sQLnyMhAEhKRM0SmOGTdpHs9EtATwyPLWIGtj-FqUBtDmxXSeBB76CaK5aj2Tqd5V5QQTB1kIvkkPy53SxceDZZ5x6onESzd1sAzWv7i8Y8lpno-k0HxPg53Dq9y5VnAvG4-rwThi9NLGI3MbZ5bIFqIiGjeN45HXjU9r3BoTKBr_7-7etT0m1FxTgC3ujgb-xWHnJKNMO8fPmt8OXpcfobR2asPJpobC24IHC0\",\n      \"status\": null\n    },\n    {\n      \"id\": \"msg_06be29519eadd743006af10ab6604487d294001f5f92d0dd47\",\n      \"content\": [\n        {\n          \"annotations\": [],\n          \"text\": \"Языковая модель — это программа, которая умеет работать с текстом. Она учится на множестве примеров и предсказывает, какие слова подойдут дальше. Поэтому она может отвечать на вопросы и помогать писать.\",\n          \"type\": \"output_text\",\n          \"logprobs\": []\n        }\n      ],\n      \"role\": \"assistant\",\n      \"status\": \"completed\",\n      \"type\": \"message\",\n      \"phase\": \"final_answer\"\n    }\n  ],\n  \"parallel_tool_calls\": true,\n  \"temperature\": 1.0,\n  \"tool_choice\": \"auto\",\n  \"tools\": [],\n  \"top_p\": 0.98,\n  \"background\": false,\n  \"completed_at\": 1794181815.0,\n  \"conversation\": null,\n  \"max_output_tokens\": 512,\n  \"max_tool_calls\": null,\n  \"moderation\": null,\n  \"previous_response_id\": null,\n  \"prompt\": null,\n  \"prompt_cache_key\": null,\n  \"prompt_cache_options\": null,\n  \"prompt_cache_retention\": \"24h\",\n  \"reasoning\": {\n    \"context\": \"all_turns\",\n    \"effort\": \"medium\",\n    \"generate_summary\": null,\n    \"mode\": \"standard\",\n    \"summary\": null\n  },\n  \"safety_identifier\": null,\n  \"service_tier\": \"default\",\n  \"status\": \"completed\",\n  \"text\": {\n    \"format\": {\n      \"type\": \"text\"\n    },\n    \"verbosity\": \"medium\"\n  },\n  \"top_logprobs\": 0,\n  \"truncation\": \"disabled\",\n  \"usage\": {\n    \"input_tokens\": 29,\n    \"input_tokens_details\": {\n      \"cache_write_tokens\": 0,\n      \"cached_tokens\": 0\n    },\n    \"output_tokens\": 96,\n    \"output_tokens_details\": {\n      \"reasoning_tokens\": 41\n    },\n    \"total_tokens\": 125\n  },\n  \"user\": null,\n  \"access_programs\": null,\n  \"billing\": {\n    \"payer\": \"developer\"\n  },\n  \"frequency_penalty\": 0.0,\n  \"image\": {\n    \"context_compression\": \"disabled\"\n  },\n  \"presence_penalty\": 0.0,\n  \"store\": true,\n  \"tool_usage\": {\n    \"image_gen\": {\n      \"input_tokens\": 0,\n      \"input_tokens_details\": {\n        \"image_tokens\": 0,\n        \"text_tokens\": 0\n      },\n      \"output_tokens\": 0,\n      \"output_tokens_details\": {\n        \"image_tokens\": 0,\n        \"text_tokens\": 0\n      },\n      \"total_tokens\": 0\n    },\n    \"web_search\": {\n      \"num_requests\": 0\n    }\n  }\n}",
+      "provider": "openai",
+      "request": {
+        "model": "gpt-6-luna",
+        "input": "Объясни простыми словами, что такое языковая модель, в трёх коротких предложениях.",
+        "max_output_tokens": 512
+      },
+      "response": {
+        "id": "resp_06be29519eadd743006af10ab4001087d2af5a15466ca783dc",
+        "created_at": 1794181812.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": null,
+        "metadata": {},
+        "model": "gpt-6-luna",
+        "object": "response",
+        "output": [
+          {
+            "id": "rs_06be29519eadd743006af10ab5d44087d2a1130952e580fd9e",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": "gAAAAABq8Qq38TX2yHe0d8WSed6Gl5vC-4zwO8ATkJ9KyfViVZNYNlLui_J225TJZDgOy9csjd1gim8KTXB9y2G87c8vKwUbS2DSU4didIye3IsvqNolJQYxIO8v8Yw36E5GBhClE3m1LOzZ4uzeHfNgMlCcXFp2DO_W30YsimM7n0UHh8yBvPNSmmWcb2NHLJeUnc0FRvQOkzwG-eY-imZlXDku2QfEtZb-ynnLNICjnwg6PsiIpXbnC-mwHnYlB9Kxil3gib7slW2r14ycVNFdiJZT4S4C0KMBEXRm6xP7HlS0-nIM6pfqJ0eEp5bSTJK903UcfQHMc1DxZyxPxdXsPEM-tLL2vHmcvuSgR1MVOZv5JYL3RaoEWKMNGIok_g-YVeP5XYrgGFEr2JrQ5qVf14T0CRRI5_rCtIo18fgGhIAGS5LsTxoTQ0eBf22-TBSArvoCVcFr-RQHtz3frvTL6HDYNOLlIB7YOTnopvK1f5LwLWD-bV0IKWPbUckKHnCY7q_we9Bm30FMjFxueYyerdkMJVTmnn2iWciW0Rab79pX5uO7W5IXLlCjWWqUuwAZVSDN5P5q8O5XrI1EDO6Moe3XRYWN_XNRJgyji_om1msQOQ0UwZGf7cPNzxgYQmKsX6ZJfhX7pKKNO5MaSdaC8V9wq2B3VOYJtAZXpjDZceM8nzYOECZXEF-5yDM8q4AXiqawF3CQbGRf522sdUc4QVWQ0cN7hYiPENZuBsJDr7Mh93wIwN3Xe22REArqBaOlBIzaWLG5hiWw_UVJ6v4thdHpO53ug_AuTV8nYDa1nGfEliwhIhPrmBSgBNW0Tkl6MVcdmU6Ll_UAEH0rcdVRK8mUBoG7KT2oYIHtCg1jgLIawFnrkufaPgLCjbRjnGRFaXPn9i9WVOCbmG8LSY7hs5nwn2gcl6o2SdG3HAr2xJhlsJ2pmSF9deWu-QUe1-0KpnoFgo8cHRkbuxxvRSYY46f69KCFPfPqvc43AR_8nXYcTMxgrZruct1v8F5pR7ncL3jY_9SRBnjCYGFDJPLPxVKLEu9pdWh1jUy7l6cFAdIf3ChfAAJIusiYf8R0XUlsNGtLdA-U4pY9tcWW9b9R5kYHE2cSPT3SN00blmU7m--Mi1IVjHVHx0LFYyIT78fmzbzntDBveUXwS_SF6GOOYyH-JIu8hZpnTMXcN6VYX3vJ7mQDzOMSZD94BjnMByoN9bd5W9ztvhp4q867CpjjOjkR-0SfkK5shGnsqVdPbaGVWf2B7eIHdIOlACkbAzudfc1oOwBUsb3dIkSOKCPnFeKeipF_Xuqrp0TQzkh8Ol0r-vLtREiSNMFBqr5OApcNUtSiFjFfF_3UoZo1QJmvAdEucxZfLoHxZ5sCh8BPZaR20c6fSMuR1bezgzkRtnKt1dasHxXHEL4U03uod4dSOOxE6E-NOeDU7xS5R4tFClhJ2ApRmZl_n4suUf8Acpt0HXnt5l1ONdI9dA56J85HdkykQznXaGeE57cqiv1pZaCjyJ_v4ArnVlCbbhF87_OV1TBaDcxw1lsqTeB7t11N9fDxE8-F7lMFYd3naSDJWvJXqmUzhm1C9ih66HAKEKBP-gP2JcPoCvH4l2XQT4Aopk_hPv0hDTx9XciLGvBI4axbRptHm5nwxedX5CY24daSUi8RygexdfRsVh9EXHL7kAXkA9IBu68qpJ6a5zPMRYnqbyXVwkptdVcwWCPqmLXqc3BVHkh2_EtmIFQ3u0NTwsnPyb3FRrHiBqALw2agD_x9axjK7q36WbMIBTbl8exgM81EzQsDKxqLfefU_8UBYEd3lD2HbrvAq8-YIl5LW55MjknL-loXcgjWj-2ULQlvkbtJvO0pBrHpn4KdvkB4NQSnnqRhGEE6fCH5gilCBNKgYJ2cCXbrKtyRhKs16kXtfxbIiMQ9g1Z56Ntk0v0HzJdW4DLPsPmO_sQLnyMhAEhKRM0SmOGTdpHs9EtATwyPLWIGtj-FqUBtDmxXSeBB76CaK5aj2Tqd5V5QQTB1kIvkkPy53SxceDZZ5x6onESzd1sAzWv7i8Y8lpno-k0HxPg53Dq9y5VnAvG4-rwThi9NLGI3MbZ5bIFqIiGjeN45HXjU9r3BoTKBr_7-7etT0m1FxTgC3ujgb-xWHnJKNMO8fPmt8OXpcfobR2asPJpobC24IHC0",
+            "status": null
+          },
+          {
+            "id": "msg_06be29519eadd743006af10ab6604487d294001f5f92d0dd47",
+            "content": [
+              {
+                "annotations": [],
+                "text": "Языковая модель — это программа, которая умеет работать с текстом. Она учится на множестве примеров и предсказывает, какие слова подойдут дальше. Поэтому она может отвечать на вопросы и помогать писать.",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1794181815.0,
+        "conversation": null,
+        "max_output_tokens": 512,
+        "max_tool_calls": null,
+        "moderation": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_options": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "medium",
+          "generate_summary": null,
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 29,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 96,
+          "output_tokens_details": {
+            "reasoning_tokens": 41
+          },
+          "total_tokens": 125
+        },
+        "user": null,
+        "access_programs": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "image": {
+          "context_compression": "disabled"
+        },
+        "presence_penalty": 0.0,
+        "store": true,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      },
+      "usage": {
+        "input_tokens": 29,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 96,
+        "output_tokens_details": {
+          "reasoning_tokens": 41
+        },
+        "total_tokens": 125
+      },
+      "status": "completed",
+      "seconds": 4.107
+    }
+  ],
+  "finished_at": "2026-11-08T23:50:15.635930+00:00"
+}

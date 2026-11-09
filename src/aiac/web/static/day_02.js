@@ -46,6 +46,7 @@
   }
 
   function refreshSummary() {
+    globalThis.AiacReport?.set({day: 2, ...report});
     summary.replaceChildren();
     const observations = [];
     for (const variant of report.plan.variants) {
@@ -173,6 +174,7 @@
       status.textContent = `${error.message} Автоматического повтора нет.`;
     } finally {
       if (activeReport) activeReport.finished_at = new Date().toISOString();
+      if (activeReport) globalThis.AiacReport?.set({day: 2, ...activeReport});
       running = false;
       fields.disabled = false;
       stop.hidden = true;
