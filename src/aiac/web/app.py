@@ -20,6 +20,7 @@ from aiac.tasks.week_01 import day_02, day_03, day_04, day_05
 from aiac.tasks.week_02 import day_01 as day_06
 from aiac.tasks.week_02 import day_02 as day_07
 from aiac.tasks.week_02 import day_03 as day_08
+from aiac.tasks.week_02 import day_04 as day_09
 
 WEB = Path(__file__).parent
 app = FastAPI(title="AIAC · 35 заданий")
@@ -82,6 +83,8 @@ def task_page(
             if (task.week, task.day) == (2, 2)
             else "week_02_day_03.html"
             if (task.week, task.day) == (2, 3)
+            else "week_02_day_04.html"
+            if (task.week, task.day) == (2, 4)
             else "task.html"
         ),
         context={
@@ -92,6 +95,8 @@ def task_page(
             "model": display_settings.aiac_llm_model if settings.aiac_llm_mode == "live" else "",
             "prompt": prompt,
             "agent_examples": day_06.EXAMPLES,
+            "memory_script_version": (WEB / "static" / "week_02_day_04.js").stat().st_mtime_ns,
+            "memory_scenario": day_09.scenario() if (task.week, task.day) == (2, 4) else None,
             "token_script_version": (WEB / "static" / "week_02_day_03.js").stat().st_mtime_ns,
             "chat_script_version": (WEB / "static" / "week_02_day_02.js").stat().st_mtime_ns,
             "agent_script_version": (WEB / "static" / "week_02_day_01.js").stat().st_mtime_ns,
@@ -150,7 +155,7 @@ async def task_run(
 ) -> HTMLResponse:
     task = get_task(week, day)
     settings = Settings()
-    if (week == 1 and day in (2, 3, 4, 5)) or (week == 2 and day in (1, 2, 3)):
+    if (week == 1 and day in (2, 3, 4, 5)) or (week == 2 and day in (1, 2, 3, 4)):
         return task_page(
             request,
             task,
@@ -346,5 +351,63 @@ async def day_08_run(config: day_08.ChatInput) -> JSONResponse:
         return JSONResponse({"error": str(exc)}, status_code=409)
     except ValueError as exc:
         return JSONResponse({"error": str(exc)}, status_code=422)
+    except ModelError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=503)
+
+
+@app.get("/weeks/2/days/4/history")
+async def day_09_history() -> JSONResponse:
+    try:
+        return JSONResponse(day_09.read(), headers={"Cache-Control": "no-store"})
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
+
+
+@app.post("/weeks/2/days/4/new")
+async def day_09_new(config: day_09.SettingsInput) -> JSONResponse:
+    try:
+        return JSONResponse(day_09.new(config), headers={"Cache-Control": "no-store"})
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
+
+
+@app.post("/weeks/2/days/4/run")
+async def day_09_run(config: day_09.MemorySettings) -> JSONResponse:
+    try:
+        return JSONResponse(
+            await day_09.execute(config, Settings()), headers={"Cache-Control": "no-store"}
+        )
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=422)
+    except ModelError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=503)
+
+
+@app.get("/weeks/2/days/4/comparison")
+async def day_09_comparison() -> JSONResponse:
+    try:
+        return JSONResponse(day_09.experiment_read(), headers={"Cache-Control": "no-store"})
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
+
+
+@app.post("/weeks/2/days/4/comparison/start")
+async def day_09_comparison_start(config: day_09.SettingsInput) -> JSONResponse:
+    try:
+        return JSONResponse(day_09.start_experiment(config), headers={"Cache-Control": "no-store"})
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
+
+
+@app.post("/weeks/2/days/4/comparison/step")
+async def day_09_comparison_step() -> JSONResponse:
+    try:
+        return JSONResponse(
+            await day_09.experiment_step(Settings()), headers={"Cache-Control": "no-store"}
+        )
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
     except ModelError as exc:
         return JSONResponse({"error": str(exc)}, status_code=503)

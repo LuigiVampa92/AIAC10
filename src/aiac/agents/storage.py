@@ -32,8 +32,9 @@ class Conversation(BaseModel):
 
 
 class JsonHistory:
-    def __init__(self, directory: Path) -> None:
+    def __init__(self, directory: Path, *, state_type: type[Conversation] = Conversation) -> None:
         self.directory = directory
+        self.state_type = state_type
 
     def path(self, name: str) -> Path:
         path = self.directory / name
@@ -66,10 +67,10 @@ class JsonHistory:
         path = self.path("conversation.json")
         try:
             if not path.exists():
-                return Conversation()
+                return self.state_type()
             if path.stat().st_size > 16_000_000:
                 raise HistoryError("Файл истории слишком большой. Он оставлен без изменений.")
-            state = Conversation.model_validate_json(path.read_text(encoding="utf-8"))
+            state = self.state_type.model_validate_json(path.read_text(encoding="utf-8"))
             if state.version != 1:
                 raise HistoryError("Неизвестная версия истории. Файл оставлен без изменений.")
             return state
@@ -102,6 +103,6 @@ class JsonHistory:
         old = self.load()
         if old.turns:
             self.save(old, f"archive-{old.id}.json")
-        state = Conversation()
+        state = self.state_type()
         self.save(state)
         return state

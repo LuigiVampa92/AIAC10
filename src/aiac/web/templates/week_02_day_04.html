@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Неделя 2 · День 4 — Сжатие истории</h1>
+<article>{{ description | safe }}</article>
+<section>
+  <h2>Диалог с памятью</h2>
+  {% if error %}<p role="alert">{{ error }}</p>{% endif %}
+  <p class="model-info">Провайдер: <strong>{{ provider }}</strong> · Модель: <strong>{{ model or 'не задана' }}</strong></p>
+  <p>Полная история остаётся в локальном архиве. В запросе ранние сообщения заменяются
+    отдельной сводкой, новые сообщения сохраняются без изменений.
+    Инструменты не используются; диалоги предыдущих дней не затрагиваются.</p>
+  <form id="memory-form" action="{{ task.url }}" method="post">
+    <div class="experiment-controls">
+      <label>Сохранять последних сообщений
+        <input id="memory-keep" type="number" min="2" max="20" step="2" value="6" required>
+      </label>
+      <label>Сжимать каждые новых сообщений
+        <input id="memory-every" type="number" min="2" max="40" step="2" value="10" required>
+      </label>
+    </div>
+    <p>Считаются сообщения пользователя и ассистента: 6 сообщений — 3 пары.
+      После сжатия остаётся N последних сообщений. До следующего сжатия к ним добавляются новые:
+      ничего не выбрасывается. Настройки выбираются для нового диалога.</p>
+    <label for="memory-prompt">Сообщение (до 400 000 символов)</label>
+    <textarea id="memory-prompt" rows="3" maxlength="400000" required placeholder="Расскажи агенту о проекте, сроках и ограничениях."></textarea>
+    <button id="memory-send" type="submit" disabled>Отправить</button>
+    <button id="memory-new" type="button" disabled>Новый диалог</button>
+    <p class="notice">Расчётный лимит — $0.50 на ход, включая создание summary и ответ.
+      Генерация сводки — отдельный платный вызов. Подсчёт токенов выполняется через API;
+      его возможная стоимость не включена в эту оценку.</p>
+  </form>
+  <p id="memory-status" role="status" aria-live="polite"></p>
+  <p id="memory-info"></p>
+  <details open><summary>Текущий summary</summary><pre id="memory-summary"></pre></details>
+  <details><summary>Что сейчас отправляется вместо полной истории</summary><pre id="memory-context"></pre></details>
+  <details><summary>Полная история в архиве</summary><pre id="memory-archive"></pre></details>
+  <div id="memory-messages"></div>
+  <div class="table-scroll"><table class="comparison-table"><thead><tr>
+    <th>Ход</th><th>Статус</th><th>Вход с полной историей</th><th>Отправленный вход</th>
+    <th>Разница входа</th><th>Всего токенов с summary</th><th>USD ≈ с summary</th>
+  </tr></thead><tbody id="memory-growth"></tbody></table></div>
+</section>
+<hr>
+<section>
+  <h2>Что сохранилось после сжатия</h2>
+  <p>Сценарий и 8 деталей зафиксированы заранее. Сначала выполняются 12 сообщений
+    пользователя и 12 настоящих ответов модели. Затем к одному и тому же разговору
+    задаются одинаковые вопросы: с полной историей и с summary + последними N сообщениями.</p>
+  <details><summary>Сценарий и эталонные детали</summary><pre id="memory-scenario-view"></pre></details>
+  <button id="memory-start" type="button" disabled>Начать сравнение (до 15 генераций)</button>
+  <button id="memory-resume" type="button" disabled>Продолжить сравнение</button>
+  <button id="memory-stop" type="button" disabled>Остановить после текущего шага</button>
+  <p>Сравнение выполняется только после нажатия. Отдельная история, лимит $0.50
+    на всё сравнение. Остановка сохраняет прогресс, продолжение — по вашей кнопке.
+    После сбоя неизвестный запрос не повторяется. Предыдущее сравнение архивируется.</p>
+  <p id="memory-experiment-status" role="status" aria-live="polite"></p>
+  <p id="memory-experiment-cost"></p>
+  <div class="table-scroll"><table class="comparison-table"><thead><tr>
+    <th>Вариант</th><th>Деталей сохранено</th><th>Вход проверочного вопроса</th>
+    <th>Всего токенов проверки и summary</th><th>USD ≈ проверки и summary</th>
+  </tr></thead><tbody id="memory-results"></tbody></table></div>
+  <div class="table-scroll"><table class="comparison-table"><thead><tr>
+    <th>Деталь</th><th>Эталон</th><th>Полная история</th><th>После сжатия</th>
+  </tr></thead><tbody id="memory-facts"></tbody></table></div>
+  <p>Проверка по списку допустимых кратких ответов, без отдельной модели-судьи:
+    необычную формулировку стоит проверить вручную. Невалидный JSON не считается
+    доказательством потери всех деталей. Создание общего диалога показано в общих расходах;
+    для сжатого варианта дополнительно учитывается создание summary. Экономия не гарантируется.</p>
+  <details><summary>Summary сравнения и полные результаты</summary><pre id="memory-experiment-data"></pre></details>
+</section>
+<script id="memory-scenario" type="application/json">{{ memory_scenario | tojson }}</script>
+<script src="{{ url_for('static', path='/week_02_day_04.js') }}?v={{ memory_script_version }}" defer></script>
+{% endblock %}
