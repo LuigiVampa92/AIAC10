@@ -16,11 +16,18 @@ from aiac.llm.client import ModelError
 from aiac.reports.markdown import render as render_report
 from aiac.tasks.registry import TASKS, Task
 from aiac.tasks.week_01 import day_02, day_03, day_04, day_05
+from aiac.tasks.week_02 import day_01 as day_06
 
 WEB = Path(__file__).parent
 app = FastAPI(title="AIAC · 35 заданий")
 app.mount("/static", StaticFiles(directory=WEB / "static"), name="static")
-templates = Jinja2Templates(directory=WEB / "templates")
+
+
+def asset_versions(request: Request) -> dict[str, int]:
+    return {"style_version": (WEB / "static" / "style.css").stat().st_mtime_ns}
+
+
+templates = Jinja2Templates(directory=WEB / "templates", context_processors=[asset_versions])
 markdown = MarkdownIt("commonmark", {"html": False})
 
 
@@ -66,6 +73,8 @@ def task_page(
         name=(
             f"day_{task.day:02}.html"
             if task.week == 1 and task.day in (2, 3, 4, 5)
+            else "week_02_day_01.html"
+            if (task.week, task.day) == (2, 1)
             else "task.html"
         ),
         context={
@@ -75,6 +84,8 @@ def task_page(
             "provider": settings.aiac_llm_provider,
             "model": display_settings.aiac_llm_model if settings.aiac_llm_mode == "live" else "",
             "prompt": prompt,
+            "agent_examples": day_06.EXAMPLES,
+            "agent_script_version": (WEB / "static" / "week_02_day_01.js").stat().st_mtime_ns,
             "result": result,
             "error": error,
             "request_json": request_json,
@@ -130,7 +141,7 @@ async def task_run(
 ) -> HTMLResponse:
     task = get_task(week, day)
     settings = Settings()
-    if week == 1 and day in (2, 3, 4, 5):
+    if (week == 1 and day in (2, 3, 4, 5)) or (week, day) == (2, 1):
         return task_page(
             request,
             task,
@@ -258,3 +269,13 @@ async def download_report(day: int, request: Request) -> Response:
             "Cache-Control": "no-store",
         },
     )
+
+
+@app.post("/weeks/2/days/1/run")
+async def day_06_run(config: day_06.AgentInput) -> JSONResponse:
+    try:
+        return JSONResponse(await day_06.execute(config, Settings()))
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=422)
+    except ModelError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=503)

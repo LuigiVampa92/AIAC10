@@ -1,0 +1,1 @@
+.venv/bin/python -m uvicorn aiac.web.app:app --reload --host 127.0.0.1

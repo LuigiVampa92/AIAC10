@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Неделя 2 · День 1 — Первый агент</h1>
+<article>{{ description | safe }}</article>
+<section>
+  <h2>Запрос агенту</h2>
+  <p class="model-info">Провайдер: <strong>{{ provider }}</strong> · Модель: <strong>{{ model or 'не задана' }}</strong></p>
+  <p>Агент сам выбирает инструменты: калькулятор, текущее время или конвертер валют.
+    Учебный фиксированный курс: 1 USD = 90 RUB, 1 EUR = 100 RUB. Это не рыночные котировки.</p>
+  <form id="agent-form" action="{{ task.url }}" method="post">
+    <label for="agent-prompt">Текст запроса (до 4000 символов)</label>
+    <textarea id="agent-prompt" name="prompt" rows="4" required maxlength="4000">{{ agent_examples.control }}</textarea>
+    <fieldset class="agent-tools"><legend>Доступные агенту инструменты</legend>
+      <div class="agent-tools-row">
+        {% for name, title in [('fixed_exchange', 'Конвертер USD/EUR/RUB'), ('calculator', 'Калькулятор: сложение'), ('current_time', 'Точное время')] %}
+        <label class="agent-tool-toggle">
+          <input type="checkbox" id="agent-tool-{{ name }}" checked>
+          <span class="agent-tool-tile">
+            <span>{{ title }}</span>
+            <span class="agent-tool-state" aria-hidden="true"><span class="agent-tool-on">Вкл</span><span class="agent-tool-off">Выкл</span></span>
+          </span>
+        </label>
+        {% endfor %}
+      </div>
+    </fieldset>
+    <p>Выключенные функции не передаются модели. Курсы находятся внутри функции конвертации.
+      В сравнении оцениваем валидность JSON и ресурсы; сумму и время в ответе не оцениваем.</p>
+    <p>Время: при включённом инструменте используются локальные часы; при выключенном
+      отвечает сама модель через API приблизительной меткой. В обоих случаях формат
+      timestamp — YYYY-MM-DDTHH:mm:ssZ. Без часов это предположение модели,
+      оно может существенно отличаться от реального времени.</p>
+    <p>Один запуск: до 6 обращений к модели, до 4096 выходных токенов на обращение.
+      Инструменты выполняются локально. Каждый запуск начинается заново, история между запусками пока не сохраняется.</p>
+    <button type="submit" id="agent-submit">Отправить агенту</button>
+  </form>
+  <noscript><p>Для работы агента включите JavaScript.</p></noscript>
+  {% if error %}<p role="alert">{{ error }}</p>{% endif %}
+  <progress id="agent-progress" hidden aria-label="Агент выполняет запрос"></progress>
+  <p id="agent-status" role="status" aria-live="polite"></p>
+</section>
+<section><h2>Финальный ответ</h2><p id="agent-result-info"></p><pre id="agent-answer"></pre></section>
+<section><h2>Действия агента</h2><p>Вызовы инструментов и их результаты появятся после завершения запроса.
+</p><div id="agent-steps"></div></section>
+<hr>
+<section aria-label="Автоматическое сравнение"><h2>Автоматический прогон</h2>
+    <button type="button" id="agent-compare">Автосравнение: все / без инструментов</button>
+    <p>Автосравнение отправляет текущий текст дважды, последовательно: все инструменты,
+      затем ни одного (до 12 платных обращений к модели суммарно). Другие комбинации — вручную.
+      Проверка JSON действует для любого текста запроса, значения полей не оцениваются.</p>
+</section>
+<section><h2>Сравнение запусков</h2>
+<p>Время — полный цикл агента, токены — сумма usage всех обращений, включая повторно
+отправленный контекст. Нет данных означает неполную метрику, а не нулевой расход.
+Один прогон не доказывает устойчивого преимущества.</p>
+<p class="notice">Один запрос пользователя запускает цикл агента. Модель через API выбирает
+следующий инструмент, функция выполняется локально, её результат передаётся модели.
+Поэтому инструменты могут увеличивать время и число токенов.</p>
+<p id="agent-comparison-summary" role="status" aria-live="polite">Запустите автосравнение, чтобы увидеть разницу ресурсов.</p>
+<div class="table-scroll"><table class="comparison-table"><thead><tr><th>Инструменты</th><th>Статус / модель</th><th>Время, с</th>
+<th>Вход</th><th>Выход</th><th>Всего токенов</th><th>Запросы к API</th><th>Локальные вызовы</th><th>Валидный JSON</th><th>Данные запуска</th></tr></thead>
+<tbody id="agent-comparison"></tbody></table></div></section>
+<script src="{{ url_for('static', path='/week_02_day_01.js') }}?v={{ agent_script_version }}" defer></script>
+{% endblock %}

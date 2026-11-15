@@ -54,7 +54,11 @@ async def complete(
         for part in item.get("content", [])
     )
     status = "refusal" if refusal else str(response.status)
-    if status == "completed" and not response.output_text.strip():
+    if (
+        status == "completed"
+        and not response.output_text.strip()
+        and not any(item.get("type") == "function_call" for item in raw.get("output", []))
+    ):
         status = "empty"
     return ReasoningResult(
         raw,
