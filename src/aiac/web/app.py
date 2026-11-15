@@ -10,6 +10,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from markdown_it import MarkdownIt
 
+from aiac.agents.storage import HistoryError
 from aiac.config import Settings
 from aiac.llm.catalog import list_models
 from aiac.llm.client import ModelError
@@ -17,6 +18,7 @@ from aiac.reports.markdown import render as render_report
 from aiac.tasks.registry import TASKS, Task
 from aiac.tasks.week_01 import day_02, day_03, day_04, day_05
 from aiac.tasks.week_02 import day_01 as day_06
+from aiac.tasks.week_02 import day_02 as day_07
 
 WEB = Path(__file__).parent
 app = FastAPI(title="AIAC · 35 заданий")
@@ -75,6 +77,8 @@ def task_page(
             if task.week == 1 and task.day in (2, 3, 4, 5)
             else "week_02_day_01.html"
             if (task.week, task.day) == (2, 1)
+            else "week_02_day_02.html"
+            if (task.week, task.day) == (2, 2)
             else "task.html"
         ),
         context={
@@ -85,6 +89,7 @@ def task_page(
             "model": display_settings.aiac_llm_model if settings.aiac_llm_mode == "live" else "",
             "prompt": prompt,
             "agent_examples": day_06.EXAMPLES,
+            "chat_script_version": (WEB / "static" / "week_02_day_02.js").stat().st_mtime_ns,
             "agent_script_version": (WEB / "static" / "week_02_day_01.js").stat().st_mtime_ns,
             "result": result,
             "error": error,
@@ -141,7 +146,7 @@ async def task_run(
 ) -> HTMLResponse:
     task = get_task(week, day)
     settings = Settings()
-    if (week == 1 and day in (2, 3, 4, 5)) or (week, day) == (2, 1):
+    if (week == 1 and day in (2, 3, 4, 5)) or (week == 2 and day in (1, 2)):
         return task_page(
             request,
             task,
@@ -275,6 +280,36 @@ async def download_report(day: int, request: Request) -> Response:
 async def day_06_run(config: day_06.AgentInput) -> JSONResponse:
     try:
         return JSONResponse(await day_06.execute(config, Settings()))
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=422)
+    except ModelError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=503)
+
+
+@app.get("/weeks/2/days/2/history")
+async def day_07_history() -> JSONResponse:
+    try:
+        return JSONResponse(day_07.read(), headers={"Cache-Control": "no-store"})
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
+
+
+@app.post("/weeks/2/days/2/new")
+async def day_07_new() -> JSONResponse:
+    try:
+        return JSONResponse(day_07.new(), headers={"Cache-Control": "no-store"})
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
+
+
+@app.post("/weeks/2/days/2/run")
+async def day_07_run(config: day_06.AgentInput) -> JSONResponse:
+    try:
+        return JSONResponse(
+            await day_07.execute(config, Settings()), headers={"Cache-Control": "no-store"}
+        )
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
     except ValueError as exc:
         return JSONResponse({"error": str(exc)}, status_code=422)
     except ModelError as exc:

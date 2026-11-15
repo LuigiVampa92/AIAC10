@@ -2,6 +2,7 @@
 
 import asyncio
 import json
+from collections.abc import Callable
 from copy import deepcopy
 from dataclasses import dataclass, field
 from time import perf_counter
@@ -72,7 +73,13 @@ class SimpleAgent:
             "Это предположительная метка, а не результат проверки часов."
         )
 
-    async def run(self, prompt: str) -> AgentResult:
+    async def run(
+        self,
+        prompt: str,
+        *,
+        history: list[dict[str, Any]] | None = None,
+        on_update: Callable[[AgentResult], None] | None = None,
+    ) -> AgentResult:
         if not prompt.strip() or len(prompt) > 4000:
             raise ValueError("Введите непустой запрос до 4000 символов.")
         if self.settings.aiac_llm_mode != "live":
@@ -83,10 +90,17 @@ class SimpleAgent:
         if not key or not key.get_secret_value().strip():
             raise ModelError("Настройте OPENAI_API_KEY.")
         result = AgentResult(
-            model=self.settings.aiac_llm_model, history=[{"role": "user", "content": prompt}]
+            model=self.settings.aiac_llm_model,
+            history=deepcopy(history or []) + [{"role": "user", "content": prompt}],
         )
         started = perf_counter()
-        seen_ids: set[str] = set()
+        seen_ids: set[str] = {
+            item["call_id"]
+            for item in result.history
+            if item.get("type") == "function_call" and isinstance(item.get("call_id"), str)
+        }
+        if on_update:
+            on_update(result)
         try:
             async with asyncio.timeout(TOTAL_TIMEOUT):
                 for number in range(1, MAX_STEPS + 1):
@@ -112,6 +126,8 @@ class SimpleAgent:
                         "tools": [],
                     }
                     result.steps.append(step)
+                    if on_update:
+                        on_update(result)
                     call = await reasoning.complete(payload, self.settings, timeout_seconds=30)
                     step.update(
                         response=call.response,
@@ -122,18 +138,23 @@ class SimpleAgent:
                         usage=call.response.get("usage") if call.response else None,
                     )
                     result.model = call.model
+                    output = (call.response or {}).get("output", [])
+                    result.history.extend(deepcopy(output))
+                    if on_update:
+                        on_update(result)
                     if call.status != "completed":
                         result.status = call.status
                         result.error = (
                             call.error or "Модель не завершила ответ. Цикл остановлен без повтора."
                         )
                         break
-                    output = (call.response or {}).get("output", [])
-                    # Preserve all items, including opaque reasoning, in their original order.
-                    result.history.extend(deepcopy(output))
                     tool_calls = [item for item in output if item.get("type") == "function_call"]
                     if not tool_calls:
                         result.text = call.text
+                        if call.text.strip() and not any(
+                            i.get("type") == "message" for i in output
+                        ):
+                            result.history.append({"role": "assistant", "content": call.text})
                         result.status = "completed" if call.text.strip() else "empty"
                         if result.status == "empty":
                             result.error = "Модель не вернула финальный текст."
@@ -181,6 +202,8 @@ class SimpleAgent:
                             "output": json.dumps(answer, ensure_ascii=False),
                         }
                     )
+                    if on_update:
+                        on_update(result)
         except TimeoutError:
             result.status = "timeout"
             result.error = (

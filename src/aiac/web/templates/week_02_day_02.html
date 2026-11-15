@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Неделя 2 · День 2 — Сохранение контекста</h1>
+<article>{{ description | safe }}</article>
+<section>
+  <h2>Диалог с агентом</h2>
+  {% if error %}<p role="alert">{{ error }}</p>{% endif %}
+  <p class="model-info">Провайдер: <strong>{{ provider }}</strong> · Модель: <strong>{{ model or 'не задана' }}</strong></p>
+  <p>Сообщения, вызовы инструментов и результаты сохраняются на сервере.
+    После перезапуска откройте эту страницу и продолжите разговор.
+    История хранится локально в проекте, не публикуется в Git.</p>
+  <p id="chat-info"></p>
+  <div id="chat-messages" aria-live="polite"></div>
+  <form id="chat-form" action="{{ task.url }}" method="post">
+    <label for="chat-prompt">Сообщение агенту</label>
+    <textarea id="chat-prompt" rows="3" maxlength="4000" required placeholder="Например: Меня зовут Павел. Конвертируй 25 USD в рубли и запомни результат."></textarea>
+    <fieldset class="agent-tools"><legend>Инструменты</legend>
+      <div class="agent-tools-row">
+        {% for name, title in [('fixed_exchange', 'Конвертер валют'), ('calculator', 'Калькулятор: сложение'), ('current_time', 'Точное время')] %}
+        <label class="agent-tool-toggle">
+          <input type="checkbox" id="chat-tool-{{ name }}" checked>
+          <span class="agent-tool-tile"><span>{{ title }}</span>
+            <span class="agent-tool-state" aria-hidden="true"><span class="agent-tool-on">Вкл</span><span class="agent-tool-off">Выкл</span></span>
+          </span>
+        </label>
+        {% endfor %}
+      </div>
+    </fieldset>
+    <p>Один ход: до 6 обращений к API. Весь предыдущий контекст отправляется модели;
+      с ростом диалога растёт расход токенов. Каждый запуск в live платный.</p>
+    <button id="chat-submit" type="submit" disabled>Отправить</button>
+    <button id="chat-new" type="button" disabled>Новый диалог</button>
+    <p>Новый диалог сохраняет предыдущий в локальный архив. При незавершённом
+      запросе автоматического повтора нет.</p>
+  </form>
+  <p id="chat-status" role="status" aria-live="polite"></p>
+  <details><summary>Полная сохранённая история</summary><pre id="chat-history"></pre></details>
+  <noscript>Для диалога нужен JavaScript.</noscript>
+</section>
+<script src="{{ url_for('static', path='/week_02_day_02.js') }}?v={{ chat_script_version }}" defer></script>
+{% endblock %}
