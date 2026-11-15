@@ -1,5 +1,7 @@
 """Day 7: continue a tool-calling agent from durable local history."""
 
+from collections.abc import Callable
+from pathlib import Path
 from typing import Any
 
 from aiac.agents.simple import AgentResult, SimpleAgent
@@ -47,7 +49,14 @@ def turn_summary(result: AgentResult, prompt: str) -> dict[str, Any]:
     }
 
 
-async def execute(config: AgentInput, settings: Settings) -> dict[str, Any]:
+async def execute(
+    config: AgentInput,
+    settings: Settings,
+    *,
+    directory: Path | None = None,
+    agent: SimpleAgent | None = None,
+    summarize: Callable[[AgentResult, str], dict[str, Any]] = turn_summary,
+) -> dict[str, Any]:
     if not config.prompt.strip():
         raise ValueError("Введите непустое сообщение.")
     # Reject configuration problems before creating/changing durable history.
@@ -55,7 +64,7 @@ async def execute(config: AgentInput, settings: Settings) -> dict[str, Any]:
         raise ModelError("Для агента нужны live и провайдер openai.")
     if not settings.openai_api_key or not settings.aiac_llm_model.strip():
         raise ModelError("Настройте OPENAI_API_KEY и AIAC_LLM_MODEL.")
-    store = JsonHistory(STORE_ROOT)
+    store = JsonHistory(directory if directory is not None else STORE_ROOT)
     with store.lock():
         state = store.load()
         if state.status not in ("empty", "completed"):
@@ -73,15 +82,15 @@ async def execute(config: AgentInput, settings: Settings) -> dict[str, Any]:
         def checkpoint(result: AgentResult) -> None:
             state.history = result.history
             state.status = "running"
-            state.turns[-1] = turn_summary(result, config.prompt)
+            state.turns[-1] = summarize(result, config.prompt)
             store.save(state)
 
-        result = await SimpleAgent(settings, list(config.tools)).run(
+        result = await (agent or SimpleAgent(settings, list(config.tools))).run(
             config.prompt, history=previous, on_update=checkpoint
         )
         state.status = result.status
         state.history = result.history
-        state.turns[-1] = turn_summary(result, config.prompt)
+        state.turns[-1] = summarize(result, config.prompt)
         store.save(state)
         return snapshot(state)
 

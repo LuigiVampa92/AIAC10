@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Неделя 2 · День 3 — Работа с токенами</h1>
+<article>{{ description | safe }}</article>
+<section>
+  <h2>Диалог и расход токенов</h2>
+  {% if error %}<p role="alert">{{ error }}</p>{% endif %}
+  <p class="model-info">Провайдер: <strong>{{ provider }}</strong> · Модель: <strong>{{ model or 'не задана' }}</strong></p>
+  <p id="tokens-profile"></p>
+  <p>Это отдельный сохраняемый диалог. История дня 7 не используется.
+    Новый запрос и предыдущая история считаются отдельно через API подсчёта.
+    Эти числа включают оформление сообщений и не обязаны складываться в полный вход:
+    полный вход также содержит общие инструкции.</p>
+  <form id="tokens-form" action="{{ task.url }}" method="post">
+    <label for="tokens-prompt">Сообщение (до 400 000 символов)</label>
+    <textarea id="tokens-prompt" rows="3" required maxlength="400000">Меня зовут Павел. Мой проект называется Север. Бюджет — 42000 рублей. Запомни эти детали.</textarea>
+    <p class="notice">Лимит расчётных расходов на один ответ — <strong>$0.50</strong>,
+      он фиксирован. Перед генерацией считаем стоимость всей истории и нового сообщения
+      плюс резерв ответа до 4096 токенов. Если оценка выше 50 центов, генерация не отправляется.</p>
+    <p>Это защита от случайно дорогого запроса, не баланс аккаунта и не общий бюджет диалога.
+      Деньги заранее не списываются; фактический короткий ответ может стоить меньше.
+      Возможная стоимость API подсчёта и индивидуальные наценки провайдера в оценку не входят.</p>
+    <button id="tokens-submit" type="submit" disabled>Отправить</button>
+    <button id="tokens-new" type="button" disabled>Новый диалог</button>
+  </form>
+  <p id="tokens-status" role="status" aria-live="polite"></p>
+  <p id="tokens-total"></p>
+  <div id="tokens-messages"></div>
+  <h3>Рост расходов по ходам</h3>
+  <div class="table-scroll"><table class="comparison-table"><thead><tr>
+    <th>Ход</th><th>Новый запрос отдельно</th><th>История до хода отдельно</th>
+    <th>Полный вход первого обращения</th><th>Вход usage за ход</th><th>Ответ usage за ход</th>
+    <th>Накоплено токенов</th><th>Стоимость хода, USD ≈</th><th>Накоплено USD ≈</th>
+  </tr></thead><tbody id="tokens-growth"></tbody></table></div>
+</section>
+<script src="{{ url_for('static', path='/week_02_day_03.js') }}?v={{ token_script_version }}" defer></script>
+{% endblock %}

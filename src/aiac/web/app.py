@@ -19,6 +19,7 @@ from aiac.tasks.registry import TASKS, Task
 from aiac.tasks.week_01 import day_02, day_03, day_04, day_05
 from aiac.tasks.week_02 import day_01 as day_06
 from aiac.tasks.week_02 import day_02 as day_07
+from aiac.tasks.week_02 import day_03 as day_08
 
 WEB = Path(__file__).parent
 app = FastAPI(title="AIAC · 35 заданий")
@@ -79,6 +80,8 @@ def task_page(
             if (task.week, task.day) == (2, 1)
             else "week_02_day_02.html"
             if (task.week, task.day) == (2, 2)
+            else "week_02_day_03.html"
+            if (task.week, task.day) == (2, 3)
             else "task.html"
         ),
         context={
@@ -89,6 +92,7 @@ def task_page(
             "model": display_settings.aiac_llm_model if settings.aiac_llm_mode == "live" else "",
             "prompt": prompt,
             "agent_examples": day_06.EXAMPLES,
+            "token_script_version": (WEB / "static" / "week_02_day_03.js").stat().st_mtime_ns,
             "chat_script_version": (WEB / "static" / "week_02_day_02.js").stat().st_mtime_ns,
             "agent_script_version": (WEB / "static" / "week_02_day_01.js").stat().st_mtime_ns,
             "result": result,
@@ -146,7 +150,7 @@ async def task_run(
 ) -> HTMLResponse:
     task = get_task(week, day)
     settings = Settings()
-    if (week == 1 and day in (2, 3, 4, 5)) or (week == 2 and day in (1, 2)):
+    if (week == 1 and day in (2, 3, 4, 5)) or (week == 2 and day in (1, 2, 3)):
         return task_page(
             request,
             task,
@@ -307,6 +311,36 @@ async def day_07_run(config: day_06.AgentInput) -> JSONResponse:
     try:
         return JSONResponse(
             await day_07.execute(config, Settings()), headers={"Cache-Control": "no-store"}
+        )
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=422)
+    except ModelError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=503)
+
+
+@app.get("/weeks/2/days/3/history")
+async def day_08_history() -> JSONResponse:
+    try:
+        return JSONResponse(day_08.read(Settings()), headers={"Cache-Control": "no-store"})
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
+
+
+@app.post("/weeks/2/days/3/new")
+async def day_08_new() -> JSONResponse:
+    try:
+        return JSONResponse(day_08.new(Settings()), headers={"Cache-Control": "no-store"})
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
+
+
+@app.post("/weeks/2/days/3/run")
+async def day_08_run(config: day_08.ChatInput) -> JSONResponse:
+    try:
+        return JSONResponse(
+            await day_08.execute(config, Settings()), headers={"Cache-Control": "no-store"}
         )
     except HistoryError as exc:
         return JSONResponse({"error": str(exc)}, status_code=409)

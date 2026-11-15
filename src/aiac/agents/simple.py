@@ -2,7 +2,7 @@
 
 import asyncio
 import json
-from collections.abc import Callable
+from collections.abc import Awaitable, Callable
 from copy import deepcopy
 from dataclasses import dataclass, field
 from time import perf_counter
@@ -55,8 +55,19 @@ def replay_input(history: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 class SimpleAgent:
-    def __init__(self, settings: Settings, tools: list[str] | None = None) -> None:
+    def __init__(
+        self,
+        settings: Settings,
+        tools: list[str] | None = None,
+        *,
+        before_call: Callable[[dict[str, Any]], Awaitable[dict[str, Any]]] | None = None,
+        max_context_chars: int = MAX_CONTEXT_CHARS,
+        max_prompt_chars: int = 4000,
+    ) -> None:
         self.settings = settings
+        self.before_call = before_call
+        self.max_context_chars = max_context_chars
+        self.max_prompt_chars = max_prompt_chars
         self.tools = list(
             dict.fromkeys(tools if tools is not None else [s["name"] for s in SCHEMAS])
         )
@@ -80,8 +91,8 @@ class SimpleAgent:
         history: list[dict[str, Any]] | None = None,
         on_update: Callable[[AgentResult], None] | None = None,
     ) -> AgentResult:
-        if not prompt.strip() or len(prompt) > 4000:
-            raise ValueError("Введите непустой запрос до 4000 символов.")
+        if not prompt.strip() or len(prompt) > self.max_prompt_chars:
+            raise ValueError(f"Введите непустой запрос до {self.max_prompt_chars} символов.")
         if self.settings.aiac_llm_mode != "live":
             raise ModelError("Для агента нужен реальный режим live. Demo не выполняет задание.")
         if self.settings.aiac_llm_provider != "openai" or not self.settings.aiac_llm_model.strip():
@@ -104,7 +115,7 @@ class SimpleAgent:
         try:
             async with asyncio.timeout(TOTAL_TIMEOUT):
                 for number in range(1, MAX_STEPS + 1):
-                    if len(json.dumps(result.history, ensure_ascii=False)) > MAX_CONTEXT_CHARS:
+                    if len(json.dumps(result.history, ensure_ascii=False)) > self.max_context_chars:
                         result.status, result.error = "limit", "Достигнут предел размера контекста."
                         break
                     payload = {
@@ -128,6 +139,12 @@ class SimpleAgent:
                     result.steps.append(step)
                     if on_update:
                         on_update(result)
+                    if self.before_call:
+                        step["generation_started"] = False
+                        step["metrics"] = await self.before_call(payload)
+                        step["generation_started"] = True
+                        if on_update:
+                            on_update(result)
                     call = await reasoning.complete(payload, self.settings, timeout_seconds=30)
                     step.update(
                         response=call.response,
