@@ -16,7 +16,7 @@ from aiac.agents.compression import (
     validate_cursor,
 )
 from aiac.agents.simple import AgentResult, replay_input
-from aiac.agents.storage import HistoryError, JsonHistory
+from aiac.agents.storage import ConversationWriter, HistoryError, JsonHistory
 from aiac.config import ROOT, Settings
 from aiac.llm.client import ModelError, ModelResult
 from aiac.tasks.week_02 import day_03 as day08
@@ -117,7 +117,7 @@ def resources(operations: list[dict[str, Any]]) -> dict[str, Any]:
 
 async def operation(
     state: SummaryConversation,
-    source: JsonHistory,
+    source: ConversationWriter,
     settings: Settings,
     *,
     kind: str,
@@ -125,6 +125,7 @@ async def operation(
     history: list[dict[str, Any]],
     remaining: float,
     reference: list[dict[str, Any]] | None = None,
+    instructions: str | None = None,
 ) -> tuple[AgentResult, dict[str, Any]]:
     meter = day08.TokenMeter(settings)
     meter.budget = max(0, remaining)
@@ -136,7 +137,7 @@ async def operation(
         payload["truncation"] = "disabled"
         for key in ("tools", "tool_choice", "parallel_tool_calls"):
             payload.pop(key, None)
-        if kind == "summary":
+        if kind in ("summary", "facts"):
             payload["max_output_tokens"] = 2048
         if reference is not None:
             full = deepcopy(payload)
@@ -149,8 +150,11 @@ async def operation(
         return metrics
 
     agent.before_call = measured
+    if instructions is not None:
+        agent.instructions = instructions
     if kind == "summary":
         agent.instructions = SUMMARY_INSTRUCTIONS
+    if kind in ("summary", "facts"):
         agent.max_prompt_chars = day08.MAX_EXPERIMENT_CHARS
 
     def checkpoint(result: AgentResult) -> None:
@@ -177,7 +181,7 @@ async def operation(
 
 async def compress(
     state: SummaryConversation,
-    source: JsonHistory,
+    source: ConversationWriter,
     settings: Settings,
     *,
     remaining: float,

@@ -6,7 +6,7 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
 from tempfile import NamedTemporaryFile
-from typing import Any
+from typing import Any, Protocol
 from uuid import uuid4
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
@@ -29,6 +29,10 @@ class Conversation(BaseModel):
     tools: list[str] = Field(
         default_factory=lambda: ["fixed_exchange", "calculator", "current_time"]
     )
+
+
+class ConversationWriter(Protocol):
+    def save(self, state: Conversation, name: str = "conversation.json") -> None: ...
 
 
 class JsonHistory:

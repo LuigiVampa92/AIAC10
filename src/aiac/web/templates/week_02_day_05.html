@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Неделя 2 · День 5 — Стратегии контекста и ветки</h1>
+<article>{{ description | safe }}</article>
+<section>
+  <h2>Диалог и рабочая память</h2>
+  {% if error %}<p role="alert">{{ error }}</p>{% endif %}
+  <p class="model-info">Провайдер: <strong>{{ provider }}</strong> · Модель: <strong>{{ model or 'не задана' }}</strong></p>
+  <form id="strategy-form" action="{{ task.url }}" method="post">
+    <div class="experiment-controls">
+      <label>Стратегия <select id="strategy-mode">
+        <option value="window">Sliding Window</option><option value="facts">Sticky Facts</option>
+        <option value="summary" selected>Summary</option>
+      </select></label>
+      <label>Последних сообщений N <input id="strategy-keep" type="number" min="2" max="20" step="2" value="6" required></label>
+      <label>Порог summary <input id="strategy-every" type="number" min="2" max="40" step="2" value="10" required></label>
+    </div>
+    <button id="strategy-apply" type="button" disabled>Применить в новой ветке</button>
+    <button id="strategy-new" type="button" disabled>Новое рабочее пространство</button>
+    <p>6 сообщений — 3 пары. Window сохраняет в рабочей памяти только хвост;
+      Facts добавляет к нему ключи и значения, обновляемые после каждого сообщения пользователя;
+      Summary сжимает раннюю часть по порогу дня 9.</p>
+    <p>Смена стратегии создаёт новую ветку из текущего хвоста. Прежняя ветка сохраняется.
+      Старые facts и summary в новую стратегию не переносятся; забытые сообщения не восстанавливаются.
+      Журнал ходов служит только для просмотра и не отправляется модели.</p>
+    <label for="strategy-prompt">Сообщение (до 400 000 символов)</label>
+    <textarea id="strategy-prompt" rows="3" maxlength="400000" required placeholder="Например: окончательный бюджет — 42000 рублей."></textarea>
+    <button id="strategy-send" type="submit" disabled>Отправить</button>
+    <p class="notice">Фиксированный расчётный лимит $0.50 на ход, включая обновление facts/summary.
+      Поддерживающие вызовы платные и учитываются отдельно. Возможная цена API подсчёта
+      токенов и индивидуальные наценки не включены.</p>
+  </form>
+  <p id="strategy-status" role="status" aria-live="polite"></p>
+  <p id="strategy-info"></p>
+  <details open><summary>Facts</summary><pre id="strategy-facts"></pre></details>
+  <details><summary>Summary</summary><pre id="strategy-summary"></pre></details>
+  <details><summary>Контекст, доступный модели</summary><pre id="strategy-context"></pre></details>
+  <div id="strategy-messages"></div>
+</section>
+<section>
+  <h2>Checkpoint и независимые ветки</h2>
+  <label>Активная ветка <select id="strategy-branches" disabled></select></label>
+  <label>Название checkpoint <input id="strategy-checkpoint-name" type="text" maxlength="60" value="Развилка" required></label>
+  <button id="strategy-checkpoint" type="button" disabled>Сохранить checkpoint</button>
+  <label>Сохранённый checkpoint <select id="strategy-checkpoints" disabled></select></label>
+  <button id="strategy-fork" type="button" disabled>Создать ветки A и B</button>
+  <p>Снимок включает сообщения, facts, summary и настройки. Обе ветки начинают
+    с одного снимка и затем изменяются независимо. Можно переключаться и продолжать
+    любую ветку. Перезапуск приложения сохраняет развилку. До 8 веток и 8 checkpoint;
+    новое пространство архивирует предыдущее.</p>
+</section>
+<hr>
+<section>
+  <h2>Сравнение трёх стратегий</h2>
+  <p>Используется сценарий дня 9: общий реальный диалог из 24 сообщений и 8 заранее
+    заданных деталей. Он воспроизводится для каждой памяти. Window отбрасывает старое,
+    Facts обновляется после каждого пользовательского сообщения, Summary сжимается по порогу.
+    В конце всем задаются одинаковые вопросы без эталонных ответов.</p>
+  <details><summary>Сценарий и список деталей</summary><pre id="strategy-scenario-view"></pre></details>
+  <button id="strategy-start" type="button" disabled>Начать сравнение</button>
+  <button id="strategy-resume" type="button" disabled>Продолжить</button>
+  <button id="strategy-stop" type="button" disabled>Остановить после текущего шага</button>
+  <p>Обычно 30 генераций при N=6/порог=10, до 39 при частом сжатии. Лимит $0.50 на
+    всё сравнение. Один шаг может включать обновления Facts и Summary.
+    Общий разговор создаётся один раз; его расходы показаны отдельно от стоимости стратегий.
+    Остановка ждёт текущий шаг, продолжение только по кнопке. Автоповтора после ошибки нет.</p>
+  <p id="strategy-progress" role="status" aria-live="polite"></p>
+  <p id="strategy-total"></p>
+  <div class="table-scroll"><table class="comparison-table"><thead><tr>
+    <th>Стратегия</th><th>Деталей сохранено</th><th>Вход проверки</th><th>Токены поддержки и проверки</th>
+    <th>USD ≈</th><th>Поддерживающих вызовов</th><th>Непустых строк кода</th>
+  </tr></thead><tbody id="strategy-results"></tbody></table></div>
+  <div class="table-scroll"><table class="comparison-table"><thead><tr>
+    <th>Деталь</th><th>Эталон</th><th>Window</th><th>Facts</th><th>Summary</th>
+  </tr></thead><tbody id="strategy-details"></tbody></table></div>
+  <ul id="strategy-conclusions"></ul>
+  <p>Строки кода — только указанные функции стратегий, без общей инфраструктуры.
+    Это локальная мера объёма, не универсальная оценка сложности.
+    Необычные правильные формулировки проверьте вручную; невалидный JSON — «не оценено».
+    Расходы обновления facts и summary включены, сокращение контекста не гарантирует общей экономии.</p>
+  <details><summary>Метод подсчёта кода, память и результаты</summary><pre id="strategy-data"></pre></details>
+</section>
+<script id="strategy-scenario" type="application/json">{{ memory_scenario | tojson }}</script>
+<script src="{{ url_for('static', path='/week_02_day_05.js') }}?v={{ strategies_script_version }}" defer></script>
+{% endblock %}

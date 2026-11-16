@@ -1,8 +1,9 @@
 import json
+from collections.abc import Callable
 from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Any
 
 from fastapi import FastAPI, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse, Response
@@ -21,6 +22,7 @@ from aiac.tasks.week_02 import day_01 as day_06
 from aiac.tasks.week_02 import day_02 as day_07
 from aiac.tasks.week_02 import day_03 as day_08
 from aiac.tasks.week_02 import day_04 as day_09
+from aiac.tasks.week_02 import day_05 as day_10
 
 WEB = Path(__file__).parent
 app = FastAPI(title="AIAC · 35 заданий")
@@ -85,6 +87,8 @@ def task_page(
             if (task.week, task.day) == (2, 3)
             else "week_02_day_04.html"
             if (task.week, task.day) == (2, 4)
+            else "week_02_day_05.html"
+            if (task.week, task.day) == (2, 5)
             else "task.html"
         ),
         context={
@@ -95,8 +99,9 @@ def task_page(
             "model": display_settings.aiac_llm_model if settings.aiac_llm_mode == "live" else "",
             "prompt": prompt,
             "agent_examples": day_06.EXAMPLES,
+            "strategies_script_version": (WEB / "static" / "week_02_day_05.js").stat().st_mtime_ns,
             "memory_script_version": (WEB / "static" / "week_02_day_04.js").stat().st_mtime_ns,
-            "memory_scenario": day_09.scenario() if (task.week, task.day) == (2, 4) else None,
+            "memory_scenario": day_09.scenario() if task.week == 2 and task.day in (4, 5) else None,
             "token_script_version": (WEB / "static" / "week_02_day_03.js").stat().st_mtime_ns,
             "chat_script_version": (WEB / "static" / "week_02_day_02.js").stat().st_mtime_ns,
             "agent_script_version": (WEB / "static" / "week_02_day_01.js").stat().st_mtime_ns,
@@ -155,7 +160,7 @@ async def task_run(
 ) -> HTMLResponse:
     task = get_task(week, day)
     settings = Settings()
-    if (week == 1 and day in (2, 3, 4, 5)) or (week == 2 and day in (1, 2, 3, 4)):
+    if (week == 1 and day in (2, 3, 4, 5)) or (week == 2 and day in (1, 2, 3, 4, 5)):
         return task_page(
             request,
             task,
@@ -406,6 +411,79 @@ async def day_09_comparison_step() -> JSONResponse:
     try:
         return JSONResponse(
             await day_09.experiment_step(Settings()), headers={"Cache-Control": "no-store"}
+        )
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
+    except ModelError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=503)
+
+
+def strategy_response(action: Callable[[], dict[str, Any]]) -> JSONResponse:
+    try:
+        return JSONResponse(action(), headers={"Cache-Control": "no-store"})
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
+
+
+@app.get("/weeks/2/days/5/history")
+async def day_10_history() -> JSONResponse:
+    return strategy_response(day_10.read)
+
+
+@app.post("/weeks/2/days/5/new")
+async def day_10_new(config: day_10.Options) -> JSONResponse:
+    return strategy_response(lambda: day_10.new(config))
+
+
+@app.post("/weeks/2/days/5/strategy")
+async def day_10_strategy(config: day_10.Options) -> JSONResponse:
+    return strategy_response(lambda: day_10.change_strategy(config))
+
+
+@app.post("/weeks/2/days/5/branch")
+async def day_10_branch(config: day_10.BranchInput) -> JSONResponse:
+    return strategy_response(lambda: day_10.switch(config))
+
+
+@app.post("/weeks/2/days/5/checkpoint")
+async def day_10_checkpoint(config: day_10.CheckpointInput) -> JSONResponse:
+    return strategy_response(lambda: day_10.save_checkpoint(config))
+
+
+@app.post("/weeks/2/days/5/fork")
+async def day_10_fork(config: day_10.ForkInput) -> JSONResponse:
+    return strategy_response(lambda: day_10.fork(config))
+
+
+@app.post("/weeks/2/days/5/run")
+async def day_10_run(config: day_08.ChatInput) -> JSONResponse:
+    try:
+        return JSONResponse(
+            await day_10.execute(config, Settings()), headers={"Cache-Control": "no-store"}
+        )
+    except HistoryError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=409)
+    except ModelError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=503)
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=422)
+
+
+@app.get("/weeks/2/days/5/comparison")
+async def day_10_comparison() -> JSONResponse:
+    return strategy_response(day_10.comparison_read)
+
+
+@app.post("/weeks/2/days/5/comparison/start")
+async def day_10_comparison_start(config: day_10.Options) -> JSONResponse:
+    return strategy_response(lambda: day_10.comparison_start(config))
+
+
+@app.post("/weeks/2/days/5/comparison/step")
+async def day_10_comparison_step() -> JSONResponse:
+    try:
+        return JSONResponse(
+            await day_10.comparison_step(Settings()), headers={"Cache-Control": "no-store"}
         )
     except HistoryError as exc:
         return JSONResponse({"error": str(exc)}, status_code=409)
